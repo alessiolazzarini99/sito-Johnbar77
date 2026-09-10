@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JohnBar 77 — Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #070934;
+      --navy-mid: #0d1258;
+      --navy-light: #1a2070;
+      --white: #ffffff;
+      --cream: #f5f3ee;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --text-muted: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 22px 22px;
+      animation: driftDots 30s linear infinite;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, var(--navy) 80%);
+      pointer-events: none;
+    }
+
+    @keyframes driftDots {
+      0%   { background-position: 0 0; }
+      100% { background-position: 44px 44px; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1.2s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+
+    .logo-wrap {
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .logo-svg {
+      width: 220px;
+      max-width: 65vw;
+    }
+
+    .hero-title {
+      font-family: 'Poppins', serif;
+      font-weight: 300;
+      font-size: clamp(3.5rem, 14vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 1s ease 0.7s both;
+    }
+
+    .hero-title span {
+      display: block;
+      font-size: clamp(1.2rem, 5vw, 2.2rem);
+      font-weight: 300;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      font-family: 'Poppins', sans-serif;
+      color: var(--white);
+      margin-top: 0.3rem;
+    }
+
+    .hero-sub {
+      font-family: 'Poppins', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 3vw, 1.15rem);
+      color: var(--gold-light);
+      margin-top: 1.5rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.9s both;
+    }
+
+    .scroll-cta {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.3s both;
+      cursor: pointer;
+    }
+
+    .scroll-cta span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* ── PHOTO STRIP ── */
+    .photo-strip {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+    }
+
+    .photo-strip-inner {
+      display: flex;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .photo-slot {
+      flex: 1;
+      background: var(--navy-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-slot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.75) saturate(0.9);
+      transition: transform 0.6s ease, filter 0.4s ease;
+    }
+
+    .photo-slot:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.9) saturate(1);
+    }
+
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+      color: var(--border);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .photo-placeholder svg {
+      width: 28px; height: 28px;
+      opacity: 0.3;
+    }
+
+    /* ── NAV TABS ── */
+    .menu-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .menu-nav::-webkit-scrollbar { display: none; }
+
+    .menu-nav-inner {
+      display: flex;
+      gap: 0;
+      min-width: max-content;
+      margin: 0 auto;
+      max-width: 960px;
+      align-items: stretch;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1.1rem 1rem;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1rem; right: 1rem;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      color: var(--white);
+    }
+
+    .tab-btn.active::after {
+      transform: scaleX(1);
+    }
+
+    /* ── LANG SWITCHER ── */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      border-left: 1px solid var(--border);
+      position: sticky;
+      right: 0;
+      background: var(--navy);
+      flex-shrink: 0;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.1rem 0.65rem;
+      cursor: pointer;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .lang-btn.active,
+    .lang-btn:hover {
+      color: var(--gold);
+    }
+
+    /* ── MENU SECTIONS ── */
+    .menu-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 1.25rem 5rem;
+    }
+
+    .menu-section {
+      display: none;
+      animation: sectionIn 0.45s ease both;
+    }
+
+    .menu-section.visible {
+      display: block;
+    }
+
+    @keyframes sectionIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      text-align: center;
+      padding: 3.5rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: 'Poppins', serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 10vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .section-tagline {
+      font-family: 'Poppins', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gold-light);
+      margin-top: 0.4rem;
+      letter-spacing: 0.04em;
+    }
+
+    .subsection-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.2rem;
+    }
+
+    .subsection-label::before,
+    .subsection-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .subsection-label span {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.1rem;
+      white-space: nowrap;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .item:last-child { border-bottom: none; }
+
+    .item-left { flex: 1; min-width: 0; }
+
+    .item-name {
+      font-family: 'Poppins', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .item-allergens {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      vertical-align: super;
+    }
+
+    .item-desc {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 200;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+      letter-spacing: 0.03em;
+    }
+
+    .item-price {
+      font-family: 'Poppins', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── COCKTAIL CARDS ── */
+    .cocktail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .cocktail-grid { grid-template-columns: 1fr; }
+    }
+
+    .cocktail-card {
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.2rem 1.1rem;
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .cocktail-card:hover {
+      border-color: rgba(201,169,110,0.4);
+      background: linear-gradient(135deg, rgba(201,169,110,0.05), transparent);
+    }
+
+    .cocktail-card-name {
+      font-family: 'Poppins', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: var(--white);
+    }
+
+    .cocktail-card-desc {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 200;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+
+    .cocktail-card-price {
+      font-family: 'Poppins', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+
+    .cocktail-card-dot {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ── APERITIVO NOTE ── */
+    .aperitivo-note {
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.5rem;
+      font-family: 'Poppins', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gold-light);
+      line-height: 1.7;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* ── WINE COLUMNS ── */
+    .wine-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 500px) {
+      .wine-cols { grid-template-columns: 1fr; gap: 0; }
+    }
+
+    /* ── GELATO FLAVORS ── */
+    .flavor-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    .flavor-pill {
+      border: 1px solid var(--border);
+      padding: 0.4rem 1.1rem;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      background: rgba(201,169,110,0.05);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .flavor-pill:hover {
+      border-color: rgba(201,169,110,0.4);
+      background: rgba(201,169,110,0.1);
+    }
+
+    .flavor-note {
+      text-align: center;
+      font-size: 0.58rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    /* ── ALLERGENI FOOTER ── */
+    .allergen-bar {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .allergen-bar h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .allergen-list {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 200;
+      color: var(--text-muted);
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── SITE FOOTER ── */
+    .site-footer {
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Poppins', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .footer-logo strong {
+      display: block;
+      font-family: 'Poppins', serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-info {
+      font-size: 0.7rem;
+      font-weight: 200;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+    }
+
+    .footer-social {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-credit {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.1em;
+      margin-top: 1rem;
+    }
+
+    /* ── SCROLL-REVEAL ── */
+    .item,
+    .cocktail-card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .item.revealed,
+    .cocktail-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── ITEM HOVER ── */
+    .item {
+      transition: opacity 0.45s ease, transform 0.45s ease, background 0.2s;
+    }
+
+    .item:hover {
+      transform: translateX(4px) translateY(0);
+    }
+
+    .item:hover .item-name {
+      color: var(--gold);
+      transition: color 0.25s ease;
+    }
+
+    .item-name {
+      transition: color 0.25s ease;
+    }
+
+    /* ── COCKTAIL DOT PULSE ── */
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.5); }
+    }
+
+    .cocktail-card-dot {
+      animation: dotPulse 2.8s ease-in-out infinite;
+    }
+
+    .cocktail-card:nth-child(2) .cocktail-card-dot { animation-delay: 0.4s; }
+    .cocktail-card:nth-child(3) .cocktail-card-dot { animation-delay: 0.8s; }
+    .cocktail-card:nth-child(4) .cocktail-card-dot { animation-delay: 1.2s; }
+    .cocktail-card:nth-child(5) .cocktail-card-dot { animation-delay: 1.6s; }
+    .cocktail-card:nth-child(6) .cocktail-card-dot { animation-delay: 2.0s; }
+    .cocktail-card:nth-child(7) .cocktail-card-dot { animation-delay: 2.4s; }
+    .cocktail-card:nth-child(8) .cocktail-card-dot { animation-delay: 2.8s; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-label">Comano Terme — Trentino</p>
+
+      <div class="logo-wrap">
+        <svg class="logo-svg" viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="268" y1="30" x2="320" y2="125" stroke="white" stroke-width="1.5"/>
+          <line x1="372" y1="30" x2="320" y2="125" stroke="white" stroke-width="1.5"/>
+          <line x1="320" y1="125" x2="320" y2="175" stroke="white" stroke-width="1.5"/>
+          <line x1="302" y1="175" x2="338" y2="175" stroke="white" stroke-width="1.5"/>
+          <circle cx="310" cy="80" r="8" fill="none" stroke="white" stroke-width="1.5"/>
+          <circle cx="310" cy="80" r="3" fill="white"/>
+        </svg>
+      </div>
+
+      <h1 class="hero-title">
+        JOHNBAR
+        <span>77</span>
+      </h1>
+      <p class="hero-sub"
+         data-it="Qualità &amp; Professionalità"
+         data-en="Quality &amp; Professionalism"
+         data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</p>
+    </div>
+
+    <div class="scroll-cta" onclick="document.querySelector('.menu-nav').scrollIntoView({behavior:'smooth'})">
+      <span data-it="menù" data-en="menu" data-de="menü">menù</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PHOTO STRIP ═══════════ -->
+  <div class="photo-strip">
+    <div class="photo-strip-inner">
+      <div class="photo-slot">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>foto bar</span>
+        </div>
+      </div>
+      <div class="photo-slot">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>foto cocktail</span>
+        </div>
+      </div>
+      <div class="photo-slot">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>foto locale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ NAV TABS ═══════════ -->
+  <nav class="menu-nav" id="menu-nav">
+    <div class="menu-nav-inner">
+      <button class="tab-btn active" data-tab="caffe"
+              data-it="Caffè" data-en="Coffee" data-de="Kaffee">Caffè</button>
+      <button class="tab-btn" data-tab="colazioni"
+              data-it="Colazioni" data-en="Breakfast" data-de="Frühstück">Colazioni</button>
+      <button class="tab-btn" data-tab="cibi"
+              data-it="Cibi" data-en="Food" data-de="Speisen">Cibi</button>
+      <button class="tab-btn" data-tab="cocktail"
+              data-it="Cocktail" data-en="Cocktail" data-de="Cocktail">Cocktail</button>
+      <button class="tab-btn" data-tab="inostri"
+              data-it="I Nostri Cocktail" data-en="Our Cocktails" data-de="Unsere Cocktails">I Nostri Cocktail</button>
+      <button class="tab-btn" data-tab="aperitivi"
+              data-it="Aperitivi" data-en="Aperitifs" data-de="Aperitifs">Aperitivi</button>
+      <button class="tab-btn" data-tab="vini"
+              data-it="Vini" data-en="Wines" data-de="Weine">Vini</button>
+      <button class="tab-btn" data-tab="bevande"
+              data-it="Bevande" data-en="Drinks" data-de="Getränke">Bevande</button>
+      <button class="tab-btn" data-tab="distillati"
+              data-it="Distillati" data-en="Spirits" data-de="Spirituosen">Distillati</button>
+      <button class="tab-btn" data-tab="gelato"
+              data-it="Gelato" data-en="Ice Cream" data-de="Eis">Gelato</button>
+
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="it">IT</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ MENU BODY ═══════════ -->
+  <main class="menu-body">
+
+    <!-- ── CAFFÈ ── -->
+    <section class="menu-section visible" id="tab-caffe">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="caffè" data-en="coffee" data-de="kaffee">caffè</div>
+        <div class="section-tagline"
+             data-it="dalle note intense" data-en="rich and intense" data-de="reich und intensiv">dalle note intense</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Caffetteria" data-en="Coffee Bar" data-de="Kaffeebar">Caffetteria</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Espresso</div></div><div class="item-price">€ 1.40</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Macchiato <span class="item-allergens">7</span></div></div><div class="item-price">€ 1.40</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè corretto" data-en="Espresso with spirit" data-de="Espresso mit Schnaps">Caffè corretto</div></div><div class="item-price">€ 1.80</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè decaffeinato" data-en="Decaffeinated coffee" data-de="Entkoffeinierter Kaffee">Caffè decaffeinato</div></div><div class="item-price">€ 1.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè decaffeinato corretto" data-en="Decaf with spirit" data-de="Entkoffeiniert mit Schnaps">Caffè decaffeinato corretto</div></div><div class="item-price">€ 1.80</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Orzo piccolo" data-en="Small barley coffee" data-de="Gerste klein">Orzo piccolo</span> <span class="item-allergens">1</span></div></div><div class="item-price">€ 1.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Orzo grande" data-en="Large barley coffee" data-de="Gerste groß">Orzo grande</span> <span class="item-allergens">1</span></div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Ginseng piccolo" data-en="Small ginseng coffee" data-de="Ginseng klein">Ginseng piccolo</span> <span class="item-allergens">1,3,6,7,8</span></div></div><div class="item-price">€ 1.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Ginseng grande" data-en="Large ginseng coffee" data-de="Ginseng groß">Ginseng grande</span> <span class="item-allergens">1,3,6,7,8</span></div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè Americano" data-en="Americano" data-de="Amerikanischer Kaffee">Caffè Americano</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Cappuccino <span class="item-allergens">7</span></div></div><div class="item-price">€ 2.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Latte macchiato <span class="item-allergens">7</span></div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Caffè con panna" data-en="Coffee with cream" data-de="Kaffee mit Sahne">Caffè con panna</span> <span class="item-allergens">7</span></div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè shakerato" data-en="Shaken iced coffee" data-de="Geschüttelter Eiskaffee">Caffè shakerato</div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Caffè shakerato corretto" data-en="Shaken iced coffee with spirit" data-de="Geschüttelter Eiskaffee mit Schnaps">Caffè shakerato corretto</div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Irish coffee</div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Cioccolata calda" data-en="Hot chocolate" data-de="Heiße Schokolade">Cioccolata calda</span> <span class="item-allergens">1,5,7,8</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Cioccolata calda con panna" data-en="Hot chocolate with cream" data-de="Heiße Schokolade mit Sahne">Cioccolata calda con panna</span> <span class="item-allergens">1,5,7,8</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="The e tisane" data-en="Tea and herbal teas" data-de="Tee und Kräutertees">The e tisane</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Crema al caffè" data-en="Coffee cream" data-de="Kaffeecreme">Crema al caffè</span> <span class="item-allergens">3,6,7,8</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Panna extra" data-en="Extra cream" data-de="Extra Sahne">Panna extra</span> <span class="item-allergens">7</span></div></div><div class="item-price">€ 1.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Caffè Speciali" data-en="Special Coffees" data-de="Spezielle Kaffees">Caffè Speciali</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Marocchino <span class="item-allergens">1,5,7,8</span></div><div class="item-desc"
+           data-it="Espresso, cioccolato, crema di latte" data-en="Espresso, chocolate, milk cream" data-de="Espresso, Schokolade, Milchcreme">Espresso, cioccolato, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Caramello <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, caramello, crema di latte" data-en="Espresso, caramel, milk cream" data-de="Espresso, Karamell, Milchcreme">Espresso, caramello, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Nocciola <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, crema di nocciola, crema di latte" data-en="Espresso, hazelnut cream, milk cream" data-de="Espresso, Haselnusscreme, Milchcreme">Espresso, crema di nocciola, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Black &amp; White <span class="item-allergens">1,5,7,8</span></div><div class="item-desc"
+           data-it="Espresso, cioccolato bianco, crema di latte" data-en="Espresso, white chocolate, milk cream" data-de="Espresso, weiße Schokolade, Milchcreme">Espresso, cioccolato bianco, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pistacchio <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, pistacchio, crema di latte" data-en="Espresso, pistachio, milk cream" data-de="Espresso, Pistazien, Milchcreme">Espresso, pistacchio, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Leccese <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, sciroppo di mandorla, crema di latte" data-en="Espresso, almond syrup, milk cream" data-de="Espresso, Mandelsirup, Milchcreme">Espresso, sciroppo di mandorla, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Brasiliano <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, cannella, crema di latte" data-en="Espresso, cinnamon, milk cream" data-de="Espresso, Zimt, Milchcreme">Espresso, cannella, crema di latte</div></div><div class="item-price">€ 2.50</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Cappuccini Speciali" data-en="Special Cappuccinos" data-de="Spezielle Cappuccinos">Cappuccini Speciali</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Cioccolatoso <span class="item-allergens">1,5,7,8</span></div><div class="item-desc"
+           data-it="Espresso, cioccolato, crema di latte" data-en="Espresso, chocolate, milk cream" data-de="Espresso, Schokolade, Milchcreme">Espresso, cioccolato, crema di latte</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Caramello <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, caramello, crema di latte" data-en="Espresso, caramel, milk cream" data-de="Espresso, Karamell, Milchcreme">Espresso, caramello, crema di latte</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Noccioloso <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, crema di nocciola, crema di latte" data-en="Espresso, hazelnut cream, milk cream" data-de="Espresso, Haselnusscreme, Milchcreme">Espresso, crema di nocciola, crema di latte</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Ciocco bianco <span class="item-allergens">1,5,7,8</span></div><div class="item-desc"
+           data-it="Espresso, cioccolato bianco, crema di latte" data-en="Espresso, white chocolate, milk cream" data-de="Espresso, weiße Schokolade, Milchcreme">Espresso, cioccolato bianco, crema di latte</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pistacchio <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="Espresso, pistacchio, crema di latte" data-en="Espresso, pistachio, milk cream" data-de="Espresso, Pistazien, Milchcreme">Espresso, pistacchio, crema di latte</div></div><div class="item-price">€ 3.50</div></div>
+    </section>
+
+    <!-- ── COLAZIONI ── -->
+    <section class="menu-section" id="tab-colazioni">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="colazioni" data-en="breakfast" data-de="frühstück">colazioni</div>
+        <div class="section-tagline"
+             data-it="buongiorno con gusto" data-en="good morning with taste" data-de="guten morgen mit stil">buongiorno con gusto</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Pasticceria" data-en="Pastries" data-de="Gebäck">Pasticceria</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Brioches <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 1.80</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Brioches speciali <span class="item-allergens">1,3,5,6,7,8</span></div><div class="item-desc"
+           data-it="integrale, carbone vegetale, vegana" data-en="wholegrain, charcoal, vegan" data-de="Vollkorn, Aktivkohle, vegan">integrale, carbone vegetale, vegana</div></div><div class="item-price">€ 3.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Brioches saraceno" data-en="Buckwheat brioche" data-de="Buchweizen-Brioche">Brioches saraceno</span> <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 3.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Treccia" data-en="Sweet braid" data-de="Zopf">Treccia</span> <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 2.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Krapfen <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 1.80</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Maritozzi <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 3.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Torta del giorno" data-en="Cake of the day" data-de="Tageskuchen">Torta del giorno</span> <span class="item-allergens">1,3,5,6,7,8</span></div></div><div class="item-price">€ 5.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Spremute" data-en="Fresh Juices" data-de="Frischsäfte">Spremute</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Spremuta d'arancia" data-en="Orange juice" data-de="Orangensaft">Spremuta d'arancia</div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Spremuta di pompelmo" data-en="Grapefruit juice" data-de="Grapefruitsaft">Spremuta di pompelmo</div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Spremuta mix di agrumi" data-en="Citrus mix juice" data-de="Zitrussaft Mix">Spremuta mix di agrumi</div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Spremuta maxi" data-en="Maxi fresh juice" data-de="Maxi-Saft">Spremuta maxi</div></div><div class="item-price">€ 7.00</div></div>
+    </section>
+
+    <!-- ── CIBI ── -->
+    <section class="menu-section" id="tab-cibi">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="cibi" data-en="food" data-de="speisen">cibi</div>
+        <div class="section-tagline"
+             data-it="gusto da condividere" data-en="flavours to share" data-de="genuss zum teilen">gusto da condividere</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Classici" data-en="Classics" data-de="Klassiker">Classici</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Toast <span class="item-allergens">1,3,6,7,10,11</span></div><div class="item-desc"
+           data-it="Cotto e formaggio" data-en="Ham and cheese" data-de="Schinken und Käse">Cotto e formaggio</div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Bruschetta <span class="item-allergens">1,3,6,7,10,11</span></div><div class="item-desc"
+           data-it="Con concassé di pomodori" data-en="With diced tomatoes" data-de="Mit gewürfelten Tomaten">Con concassé di pomodori</div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Tagliere misto" data-en="Mixed platter" data-de="Gemischte Platte">Tagliere misto</span> <span class="item-allergens">1,6,7,11</span></div></div><div class="item-price">€ 18.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Focacce Artigianali" data-en="Artisan Focaccias" data-de="Hausgemachte Focaccias">Focacce Artigianali</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Tirolese" data-en="Tyrolean" data-de="Tiroler">Tirolese</span> <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Speck, formaggio, cetriolini sottaceto" data-en="Speck, cheese, pickled gherkins" data-de="Speck, Käse, Gewürzgurken">Speck, formaggio, cetriolini sottaceto</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Vegetariana" data-en="Vegetarian" data-de="Vegetarisch">Vegetariana</span> <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Zucchine grigliate, carciofi, ricotta" data-en="Grilled zucchini, artichokes, ricotta" data-de="Gegrillte Zucchini, Artischocken, Ricotta">Zucchine grigliate, carciofi, ricotta</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Mortazza <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Mortadella, burrata" data-en="Mortadella, burrata" data-de="Mortadella, Burrata">Mortadella, burrata</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Focaccia Italia <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Culatello, scaglie di grana, insalata, olio Evo" data-en="Culatello, Grana flakes, salad, EVO oil" data-de="Culatello, Grana-Flocken, Salat, EVO-Öl">Culatello, scaglie di grana, insalata, olio Evo</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Variazioni" data-en="Variations" data-de="Variationen">Variazioni</div></div><div class="item-price">+ € 1.00</div></div>
+
+      <div class="subsection-label"><span>Pinsa</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Trentina" data-en="Trentino style" data-de="Trentiner Art">Trentina</span> <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Casolet, speck, noci" data-en="Casolet cheese, speck, walnuts" data-de="Casolet-Käse, Speck, Walnüsse">Casolet, speck, noci</div></div><div class="item-price">€ 10.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Mortazza <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Mortadella, burrata, granella di pistacchio" data-en="Mortadella, burrata, pistachio crumble" data-de="Mortadella, Burrata, Pistazienkrümel">Mortadella, burrata, granella di pistacchio</div></div><div class="item-price">€ 10.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Culatello <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Olio Evo, origano e culatello" data-en="EVO oil, oregano and culatello" data-de="EVO-Öl, Oregano und Culatello">Olio Evo, origano e culatello</div></div><div class="item-price">€ 10.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Mediterranea <span class="item-allergens">1,3,6,7,8,11</span></div><div class="item-desc"
+           data-it="Olive, tonno, pomodori confit, origano, olio Evo" data-en="Olives, tuna, confit tomatoes, oregano, EVO oil" data-de="Oliven, Thunfisch, Confit-Tomaten, Oregano, EVO-Öl">Olive, tonno, pomodori confit, origano, olio Evo</div></div><div class="item-price">€ 10.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Insalate" data-en="Salads" data-de="Salate">Insalate</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Insalata del giorno" data-en="Salad of the day" data-de="Tagessalat">Insalata del giorno</span> <span class="item-allergens">1,3,6,7,8,11</span></div></div><div class="item-price">€ 10.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Aperitivo" data-en="Aperitif" data-de="Aperitif">Aperitivo</span></div>
+
+      <div class="aperitivo-note"
+           data-it="Una proposta che cambia con il ritmo delle stagioni. Il nostro aperitivo si rinnova ogni giorno in base alla disponibilità di ingredienti freschi, selezionati con cura per offrire sapori autentici e sempre diversi."
+           data-en="A proposal that changes with the seasons. Our aperitif is renewed every day based on the availability of fresh ingredients, carefully selected to offer authentic and ever-changing flavours."
+           data-de="Ein Angebot, das sich im Rhythmus der Jahreszeiten ändert. Unser Aperitif wird täglich erneuert, je nach Verfügbarkeit frischer Zutaten, sorgfältig ausgewählt, um authentische und immer neue Aromen zu bieten.">
+        Una proposta che cambia con il ritmo delle stagioni. Il nostro aperitivo si rinnova ogni giorno in base alla disponibilità di ingredienti freschi, selezionati con cura per offrire sapori autentici e sempre diversi.
+      </div>
+    </section>
+
+    <!-- ── COCKTAIL ── -->
+    <section class="menu-section" id="tab-cocktail">
+      <div class="section-header">
+        <div class="section-title">cocktail</div>
+        <div class="section-tagline"
+             data-it="equilibri perfetti" data-en="perfect balance" data-de="perfekte balance">equilibri perfetti</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Alcolici" data-en="Alcoholic" data-de="Alkoholisch">Alcolici</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Americano <span class="item-allergens">12</span></div><div class="item-desc"
+           data-it="Campari, sweet vermouth, top soda" data-en="Campari, sweet vermouth, top soda" data-de="Campari, süßer Wermut, Top-Soda">Campari, sweet vermouth, top soda</div></div><div class="item-price">€ 7.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Negroni <span class="item-allergens">12</span></div><div class="item-desc"
+           data-it="Campari, sweet vermouth, gin" data-en="Campari, sweet vermouth, gin" data-de="Campari, süßer Wermut, Gin">Campari, sweet vermouth, gin</div></div><div class="item-price">€ 7.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Cuba Libre</div><div class="item-desc"
+           data-it="Ruhm, lime, cola" data-en="Rum, lime, cola" data-de="Rum, Limette, Cola">Ruhm, lime, cola</div></div><div class="item-price">€ 7.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Moscow Mule</div><div class="item-desc"
+           data-it="Vodka, lime, gingerbeer" data-en="Vodka, lime, ginger beer" data-de="Wodka, Limette, Ginger Beer">Vodka, lime, gingerbeer</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Tom Collins</div><div class="item-desc"
+           data-it="Gin, succo limone, zucchero, top soda" data-en="Gin, lemon juice, sugar, top soda" data-de="Gin, Zitronensaft, Zucker, Top-Soda">Gin, succo limone, zucchero, top soda</div></div><div class="item-price">€ 7.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Paloma</div><div class="item-desc"
+           data-it="Tequila, succo lime, succo pompelmo, top soda" data-en="Tequila, lime juice, grapefruit juice, top soda" data-de="Tequila, Limettensaft, Grapefruitsaft, Top-Soda">Tequila, succo lime, succo pompelmo, top soda</div></div><div class="item-price">€ 8.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Mojito</div><div class="item-desc"
+           data-it="Ruhm blanco, succo lime, zucchero, menta, top soda" data-en="White rum, lime juice, sugar, mint, top soda" data-de="Weißer Rum, Limettensaft, Zucker, Minze, Top-Soda">Ruhm blanco, succo lime, zucchero, menta, top soda</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Caipirinha</div><div class="item-desc"
+           data-it="Cachaca, lime, zucchero" data-en="Cachaça, lime, sugar" data-de="Cachaça, Limette, Zucker">Cachaca, lime, zucchero</div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Caipirinha Passion Fruit</div><div class="item-desc"
+           data-it="Cachaca, lime, passion fruit, zucchero" data-en="Cachaça, lime, passion fruit, sugar" data-de="Cachaça, Limette, Maracuja, Zucker">Cachaca, lime, passion fruit, zucchero</div></div><div class="item-price">€ 10.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Bloody Mary <span class="item-allergens">9</span></div><div class="item-desc"
+           data-it="Vodka, succo pomodoro, succo limone, pepe, sale di sedano, worchestershire" data-en="Vodka, tomato juice, lemon juice, pepper, celery salt, worcestershire" data-de="Wodka, Tomatensaft, Zitronensaft, Pfeffer, Sellerie-Salz, Worcestershire">Vodka, succo pomodoro, succo limone, pepe, sale di sedano, worchestershire</div></div><div class="item-price">€ 9.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pinacolada <span class="item-allergens">8</span></div><div class="item-desc"
+           data-it="Ruhm bianco, ruhm scuro, ananas, cocco, lime" data-en="White rum, dark rum, pineapple, coconut, lime" data-de="Weißer Rum, dunkler Rum, Ananas, Kokos, Limette">Ruhm bianco, ruhm scuro, ananas, cocco, lime</div></div><div class="item-price">€ 9.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pink Lady</div><div class="item-desc"
+           data-it="Gin, Triple sec, limone, granatina" data-en="Gin, triple sec, lemon, grenadine" data-de="Gin, Triple Sec, Zitrone, Grenadine">Gin, Triple sec, limone, granatina</div></div><div class="item-price">€ 9.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Espresso Martini</div><div class="item-desc"
+           data-it="Vodka, kahlua, espresso, zucchero" data-en="Vodka, kahlúa, espresso, sugar" data-de="Wodka, Kahlúa, Espresso, Zucker">Vodka, kahlua, espresso, zucchero</div></div><div class="item-price">€ 7.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">GinTonic</div></div><div class="item-price">€ 7 – 15</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Cocktail classici" data-en="Classic cocktails" data-de="Klassische Cocktails">Cocktail classici</div></div><div class="item-price">€ 8.50</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Analcolici" data-en="Non-Alcoholic" data-de="Alkoholfrei">Analcolici</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Orange sunrise</div><div class="item-desc"
+           data-it="Crodino, succo arancia, granatina" data-en="Crodino, orange juice, grenadine" data-de="Crodino, Orangensaft, Grenadine">Crodino, succo arancia, granatina</div></div><div class="item-price">€ 5.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Tesori Trentini" data-en="Trentino Treasures" data-de="Trentiner Schätze">Tesori Trentini</span></div><div class="item-desc"
+           data-it="Succo di mela, sciroppo di sambuco, sciroppo di zenzero, limone, top soda" data-en="Apple juice, elderflower syrup, ginger syrup, lemon, top soda" data-de="Apfelsaft, Holundersirup, Ingwersirup, Zitrone, Top-Soda">Succo di mela, sciroppo di sambuco, sciroppo di zenzero, limone, top soda</div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Summer breeze</div><div class="item-desc"
+           data-it="Succo di pesca, succo di arancia, succo limone, sciroppo lampone, top soda" data-en="Peach juice, orange juice, lemon juice, raspberry syrup, top soda" data-de="Pfirsichsaft, Orangensaft, Zitronensaft, Himbeersirup, Top-Soda">Succo di pesca, succo di arancia, succo limone, sciroppo lampone, top soda</div></div><div class="item-price">€ 5.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Cucumber mule</div><div class="item-desc"
+           data-it="Cordiale cetriolo, gingerbeer, lime" data-en="Cucumber cordial, ginger beer, lime" data-de="Gurken-Cordial, Ginger Beer, Limette">Cordiale cetriolo, gingerbeer, lime</div></div><div class="item-price">€ 7.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Non è un negroni" data-en="Not a negroni" data-de="Kein Negroni">Non è un negroni</span></div><div class="item-desc"
+           data-it="Sanbitter, cordiale ginepro, succo di mela" data-en="Sanbitter, juniper cordial, apple juice" data-de="Sanbitter, Wacholder-Cordial, Apfelsaft">Sanbitter, cordiale ginepro, succo di mela</div></div><div class="item-price">€ 7.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Taxi Driver</div><div class="item-desc"
+           data-it="Gin dealcolizzato, tonica, limone" data-en="Non-alcoholic gin, tonic, lemon" data-de="Alkoholfreier Gin, Tonic, Zitrone">Gin dealcolizzato, tonica, limone</div></div><div class="item-price">€ 8.00</div></div>
+    </section>
+
+    <!-- ── I NOSTRI COCKTAIL ── -->
+    <section class="menu-section" id="tab-inostri">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="i nostri cocktail" data-en="our cocktails" data-de="unsere cocktails">i nostri cocktail</div>
+        <div class="section-tagline"
+             data-it="creazioni della casa" data-en="house creations" data-de="hauskreationen">creazioni della casa</div>
+      </div>
+
+      <div class="cocktail-grid">
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Cardinale</div><div class="cocktail-card-desc">Gin, dry vermouth, campari</div><div class="cocktail-card-price">€ 9.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Espresso Sunrise</div><div class="cocktail-card-desc"
+             data-it="Vodka, espresso, spremuta d'arancia, tonica" data-en="Vodka, espresso, orange juice, tonic" data-de="Wodka, Espresso, Orangensaft, Tonic">Vodka, espresso, spremuta d'arancia, tonica</div><div class="cocktail-card-price">€ 8.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">John77</div><div class="cocktail-card-desc"
+             data-it="Brandy, drambuie, succo di melograno, granatina" data-en="Brandy, drambuie, pomegranate juice, grenadine" data-de="Brandy, Drambuie, Granatapfelsaft, Grenadine">Brandy, drambuie, succo di melograno, granatina</div><div class="cocktail-card-price">€ 10.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Dark but not stormy</div><div class="cocktail-card-desc">Espresso, passion fruit, ginger beer</div><div class="cocktail-card-price">€ 9.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Negroni Barricato</div><div class="cocktail-card-desc"
+             data-it="Campari, sweet vermouth, gin invecchiato 2 mesi in botte" data-en="Campari, sweet vermouth, gin aged 2 months in barrel" data-de="Campari, süßer Wermut, 2 Monate in Fässern gereifter Gin">Campari, sweet vermouth, gin invecchiato 2 mesi in botte</div><div class="cocktail-card-price">€ 10.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Forest Club</div><div class="cocktail-card-desc"
+             data-it="Gin, purea di frutti di bosco" data-en="Gin, wild berry purée" data-de="Gin, Waldbeerpüree">Gin, purea di frutti di bosco</div><div class="cocktail-card-price">€ 8.50</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Mille Fiavè</div><div class="cocktail-card-desc"
+             data-it="Ruhm, sciroppo di miele aromatizzato, succo di pompelmo" data-en="Rum, flavoured honey syrup, grapefruit juice" data-de="Rum, aromatisierter Honigsirup, Grapefruitsaft">Ruhm, sciroppo di miele aromatizzato, succo di pompelmo</div><div class="cocktail-card-price">€ 8.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Arche Mule</div><div class="cocktail-card-desc"
+             data-it="Vodka, cordiale cetriolo, succo limone, gingerbeer" data-en="Vodka, cucumber cordial, lemon juice, ginger beer" data-de="Wodka, Gurken-Cordial, Zitronensaft, Ginger Beer">Vodka, cordiale cetriolo, succo limone, gingerbeer</div><div class="cocktail-card-price">€ 8.50</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Daiquiri del Garda</div><div class="cocktail-card-desc"
+             data-it="Ruhm, cioccolato bianco, olio EVO del Garda" data-en="Rum, white chocolate, EVO oil from Lake Garda" data-de="Rum, weiße Schokolade, EVO-Öl vom Gardasee">Ruhm, cioccolato bianco, olio EVO del Garda</div><div class="cocktail-card-price">€ 9.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Rio Bianco</div><div class="cocktail-card-desc"
+             data-it="Gin, blu curacao, succo mela aromatizzato a rosmarino, zenzero e ginepro, selz/tonica" data-en="Gin, blue curaçao, apple juice with rosemary, ginger &amp; juniper, soda/tonic" data-de="Gin, Blauer Curaçao, Apfelsaft mit Rosmarin, Ingwer &amp; Wacholder, Soda/Tonic">Gin, blu curacao, succo mela aromatizzato a rosmarino, zenzero e ginepro, selz/tonica</div><div class="cocktail-card-price">€ 9.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Orange Whisky Sour</div><div class="cocktail-card-desc"
+             data-it="Whisky, spremuta d'arancia, limone, zucchero, sciroppo, angostura" data-en="Whisky, orange juice, lemon, sugar, syrup, angostura" data-de="Whisky, Orangensaft, Zitrone, Zucker, Sirup, Angostura">Whisky, spremuta d'arancia, limone, zucchero, sciroppo, angostura</div><div class="cocktail-card-price">€ 9.00</div></div>
+        <div class="cocktail-card"><div class="cocktail-card-dot"></div><div class="cocktail-card-name">Mango Daiquiri</div><div class="cocktail-card-desc"
+             data-it="Ruhm, mango, lime" data-en="Rum, mango, lime" data-de="Rum, Mango, Limette">Ruhm, mango, lime</div><div class="cocktail-card-price">€ 8.50</div></div>
+      </div>
+    </section>
+
+    <!-- ── APERITIVI ── -->
+    <section class="menu-section" id="tab-aperitivi">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="aperitivi" data-en="aperitifs" data-de="aperitifs">aperitivi</div>
+        <div class="section-tagline"
+             data-it="piccoli grandi piaceri" data-en="small great pleasures" data-de="kleine große freuden">piccoli grandi piaceri</div>
+      </div>
+
+      <div class="subsection-label"><span>Spritz</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Aperol <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Campari <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Select <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Iovem <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Venturo <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Hugo <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Bianco <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Passoa <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+    </section>
+
+    <!-- ── VINI ── -->
+    <section class="menu-section" id="tab-vini">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="vini" data-en="wines" data-de="weine">vini</div>
+        <div class="section-tagline"
+             data-it="calici da scoprire" data-en="glasses to discover" data-de="gläser zu entdecken">calici da scoprire</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Bianchi" data-en="Whites" data-de="Weißweine">Bianchi</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Nosiola <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Chardonnay <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pinot Grigio <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pinot Grigio Ramato <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pinot Bianco Monastero <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Riesling Monastero <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Kerner <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Sauvignon Monastero <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Lugana <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Calici premium" data-en="Premium glasses" data-de="Premium-Gläser">Calici premium</span> <span class="item-allergens">12</span></div></div><div class="item-price">€ 7 – 12</div></div>
+
+      <div class="subsection-label"><span>Rosè</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Schiava <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Salisa Trento DOC <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Calici premium" data-en="Premium glasses" data-de="Premium-Gläser">Calici premium</span> <span class="item-allergens">12</span></div></div><div class="item-price">€ 7 – 12</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Rossi" data-en="Reds" data-de="Rotweine">Rossi</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Teroldego <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Moratel <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Marzemino <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Ciliegino <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Pinot Nero <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Lagrein <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Calici premium" data-en="Premium glasses" data-de="Premium-Gläser">Calici premium</span> <span class="item-allergens">12</span></div></div><div class="item-price">€ 7 – 12</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Bollicine" data-en="Sparkling wines" data-de="Schaumweine">Bollicine</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Trento DOC <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Prosecco DOCG <span class="item-allergens">12</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Franciacorta DOCG <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Cartizze DOCG <span class="item-allergens">12</span></div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Champagne AOCG <span class="item-allergens">12</span></div></div><div class="item-price">€ 8.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Calici premium" data-en="Premium glasses" data-de="Premium-Gläser">Calici premium</span> <span class="item-allergens">12</span></div></div><div class="item-price">€ 7 – 12</div></div>
+    </section>
+
+    <!-- ── BEVANDE ── -->
+    <section class="menu-section" id="tab-bevande">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="bevande" data-en="drinks" data-de="getränke">bevande</div>
+        <div class="section-tagline"
+             data-it="leggere e frizzanti" data-en="light and sparkling" data-de="leicht und spritzig">leggere e frizzanti</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Bevande Fredde" data-en="Cold Drinks" data-de="Kalte Getränke">Bevande Fredde</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Acqua" data-en="Water" data-de="Wasser">Acqua</div></div><div class="item-price">€ 2.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Succo di frutta BIO" data-en="Organic fruit juice" data-de="Bio-Fruchtsaft">Succo di frutta BIO</div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coca Cola</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Fanta</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Lemonsoda</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Sprite</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Thè" data-en="Tea" data-de="Tee">Thè</div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Redbull</div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Tonica" data-en="Tonic water" data-de="Tonic Water">Tonica</div></div><div class="item-price">€ 3.00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Birre" data-en="Beers" data-de="Biere">Birre</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Bavik 0,25 <span class="item-allergens">1</span></div></div><div class="item-price">€ 3.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Bavik 0,5 <span class="item-allergens">1</span></div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Grevensteiner 0,3 <span class="item-allergens">1</span></div><div class="item-desc"
+           data-it="non filtrata" data-en="unfiltered" data-de="ungefiltert">non filtrata</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Grevensteiner 0,5 <span class="item-allergens">1</span></div><div class="item-desc"
+           data-it="non filtrata" data-en="unfiltered" data-de="ungefiltert">non filtrata</div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Weizen bottiglia" data-en="Wheat beer bottle" data-de="Weizenbier Flasche">Weizen bottiglia</span> <span class="item-allergens">1</span></div></div><div class="item-price">€ 6.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Birre bottiglia" data-en="Bottled beers" data-de="Flaschenbier">Birre bottiglia</span> <span class="item-allergens">1</span></div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Birre speciali" data-en="Special beers" data-de="Spezialbiere">Birre speciali</span> <span class="item-allergens">1</span></div></div><div class="item-price">€ 6.50</div></div>
+    </section>
+
+    <!-- ── DISTILLATI ── -->
+    <section class="menu-section" id="tab-distillati">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="distillati" data-en="spirits" data-de="spirituosen">distillati</div>
+        <div class="section-tagline"
+             data-it="carattere in ogni sorso" data-en="character in every sip" data-de="charakter in jedem schluck">carattere in ogni sorso</div>
+      </div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Whisky <span class="item-allergens">1,12</span></div></div><div class="item-price">€ 5 – 10</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"><span
+           data-it="Ruhm" data-en="Rum" data-de="Rum">Ruhm</span> <span class="item-allergens">12</span></div></div><div class="item-price">€ 4 – 8</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Grappa bianca" data-en="White grappa" data-de="Weißer Grappa">Grappa bianca</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Grappa barrique <span class="item-allergens">12</span></div></div><div class="item-price">€ 5.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Amari" data-en="Bitters" data-de="Kräuterbitter">Amari</div></div><div class="item-price">€ 3.50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Amaro del Capo</div></div><div class="item-price">€ 4.00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Liquori" data-en="Liqueurs" data-de="Liköre">Liquori</div></div><div class="item-price">€ 3.50</div></div>
+    </section>
+
+    <!-- ── GELATO ── -->
+    <section class="menu-section" id="tab-gelato">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="il gelato" data-en="ice cream" data-de="das eis">il gelato</div>
+        <div class="section-tagline"
+             data-it="del JohnBar 77" data-en="at JohnBar 77" data-de="im JohnBar 77">del JohnBar 77</div>
+      </div>
+
+      <div class="subsection-label"><span
+        data-it="Coni &amp; Coppette" data-en="Cones &amp; Cups" data-de="Hörnchen &amp; Becher">Coni &amp; Coppette</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="1 Pallina" data-en="1 Scoop" data-de="1 Kugel">1 Pallina</div></div><div class="item-price">€ 2,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="2 Palline" data-en="2 Scoops" data-de="2 Kugeln">2 Palline</div></div><div class="item-price">€ 3,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="3 Palline" data-en="3 Scoops" data-de="3 Kugeln">3 Palline</div></div><div class="item-price">€ 4,50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="4 Palline" data-en="4 Scoops" data-de="4 Kugeln">4 Palline</div></div><div class="item-price">€ 6,00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Gusti" data-en="Flavours" data-de="Sorten">Gusti</span></div>
+
+      <div class="flavor-grid">
+        <span class="flavor-pill" data-it="Nocciola" data-en="Hazelnut" data-de="Haselnuss">Nocciola</span>
+        <span class="flavor-pill">Nutella</span>
+        <span class="flavor-pill" data-it="Pistacchio" data-en="Pistachio" data-de="Pistazie">Pistacchio</span>
+        <span class="flavor-pill" data-it="Vaniglia" data-en="Vanilla" data-de="Vanille">Vaniglia</span>
+        <span class="flavor-pill" data-it="Yogurt" data-en="Yogurt" data-de="Joghurt">Yogurt</span>
+        <span class="flavor-pill" data-it="Limone *" data-en="Lemon *" data-de="Zitrone *">Limone *</span>
+        <span class="flavor-pill" data-it="Fragola *" data-en="Strawberry *" data-de="Erdbeere *">Fragola *</span>
+      </div>
+      <p class="flavor-note"
+         data-it="* senza lattosio" data-en="* lactose free" data-de="* laktosefrei">* senza lattosio</p>
+
+      <div class="subsection-label"><span
+        data-it="Coppe Speciali" data-en="Special Sundaes" data-de="Spezielle Eisbecher">Coppe Speciali</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">Affogato Caffè</div></div><div class="item-price">€ 7,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Alexander</div></div><div class="item-price">€ 10,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Cajpiroska</div></div><div class="item-price">€ 9,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Coppa Fragole con Panna" data-en="Strawberry Cup with Cream" data-de="Erdbeerbecher mit Sahne">Coppa Fragole con Panna</div></div><div class="item-price">€ 7,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Coppa Frutti di Bosco" data-en="Wild Berry Cup" data-de="Waldbeere Becher">Coppa Frutti di Bosco</div></div><div class="item-price">€ 9,50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Kinder</div></div><div class="item-price">€ 9,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Spritz</div></div><div class="item-price">€ 7,50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Coppa Yogurt" data-en="Yogurt Cup" data-de="Joghurt-Becher">Coppa Yogurt</div></div><div class="item-price">€ 8,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Crunchy</div></div><div class="item-price">€ 9,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">Coppa Mojito</div></div><div class="item-price">€ 9,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Frappè" data-en="Milkshake" data-de="Milchshake">Frappè</div></div><div class="item-price">€ 5,50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Macedonia" data-en="Fruit salad" data-de="Obstsalat">Macedonia</div></div><div class="item-price">€ 8,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="Viennese" data-en="Viennese" data-de="Wiener">Viennese</div></div><div class="item-price">€ 3,50</div></div>
+      <div class="item"><div class="item-left"><div class="item-name"
+           data-it="4 Gusti" data-en="4 Flavours" data-de="4 Sorten">4 Gusti</div></div><div class="item-price">€ 6,00</div></div>
+
+      <div class="subsection-label"><span
+        data-it="Vaschette" data-en="Take-away Tubs" data-de="Behälter">Vaschette</span></div>
+
+      <div class="item"><div class="item-left"><div class="item-name">0,5 Kg</div></div><div class="item-price">€ 14,00</div></div>
+      <div class="item"><div class="item-left"><div class="item-name">1 Kg</div></div><div class="item-price">€ 24,00</div></div>
+    </section>
+
+  </main>
+
+  <!-- ── ALLERGENI ── -->
+  <div class="allergen-bar">
+    <h3 data-it="Allergeni" data-en="Allergens" data-de="Allergene">Allergeni</h3>
+    <div class="allergen-list">
+      1. Cereali contenenti glutine &nbsp;|&nbsp; 2. Crostacei &nbsp;|&nbsp; 3. Uova &nbsp;|&nbsp; 4. Pesce &nbsp;|&nbsp;
+      5. Arachidi &nbsp;|&nbsp; 6. Soia &nbsp;|&nbsp; 7. Latte &nbsp;|&nbsp; 8. Frutta a guscio &nbsp;|&nbsp;
+      9. Sedano &nbsp;|&nbsp; 10. Senape &nbsp;|&nbsp; 11. Semi di sesamo &nbsp;|&nbsp;
+      12. Anidride solforosa &nbsp;|&nbsp; 13. Lupini &nbsp;|&nbsp; 14. Molluschi
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-logo">
+      <strong>JOHNBAR 77</strong>
+      <span data-it="Qualità &amp; Professionalità"
+            data-en="Quality &amp; Professionalism"
+            data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</span>
+    </div>
+    <div class="footer-info">
+      Via Cesare Battisti, 3 — 38077 Comano Terme TN<br>
+      johnbar77@gjoni@gmail.com
+    </div>
+    <div class="footer-social">@johnbar.77</div>
+    <div class="footer-credit">johnbar77.it</div>
+  </footer>
+
+  <script>
+    // ── LANGUAGE MANAGEMENT ──────────────────────────────────────────
+    const ALLERGEN_TEXTS = {
+      it: '1. Cereali contenenti glutine &nbsp;|&nbsp; 2. Crostacei &nbsp;|&nbsp; 3. Uova &nbsp;|&nbsp; 4. Pesce &nbsp;|&nbsp; 5. Arachidi &nbsp;|&nbsp; 6. Soia &nbsp;|&nbsp; 7. Latte &nbsp;|&nbsp; 8. Frutta a guscio &nbsp;|&nbsp; 9. Sedano &nbsp;|&nbsp; 10. Senape &nbsp;|&nbsp; 11. Semi di sesamo &nbsp;|&nbsp; 12. Anidride solforosa &nbsp;|&nbsp; 13. Lupini &nbsp;|&nbsp; 14. Molluschi',
+      en: '1. Gluten-containing cereals &nbsp;|&nbsp; 2. Crustaceans &nbsp;|&nbsp; 3. Eggs &nbsp;|&nbsp; 4. Fish &nbsp;|&nbsp; 5. Peanuts &nbsp;|&nbsp; 6. Soya &nbsp;|&nbsp; 7. Milk &nbsp;|&nbsp; 8. Tree nuts &nbsp;|&nbsp; 9. Celery &nbsp;|&nbsp; 10. Mustard &nbsp;|&nbsp; 11. Sesame seeds &nbsp;|&nbsp; 12. Sulphur dioxide &nbsp;|&nbsp; 13. Lupin &nbsp;|&nbsp; 14. Molluscs',
+      de: '1. Glutenhaltige Getreide &nbsp;|&nbsp; 2. Krebstiere &nbsp;|&nbsp; 3. Eier &nbsp;|&nbsp; 4. Fisch &nbsp;|&nbsp; 5. Erdnüsse &nbsp;|&nbsp; 6. Soja &nbsp;|&nbsp; 7. Milch &nbsp;|&nbsp; 8. Schalenfrüchte &nbsp;|&nbsp; 9. Sellerie &nbsp;|&nbsp; 10. Senf &nbsp;|&nbsp; 11. Sesamsamen &nbsp;|&nbsp; 12. Schwefeldioxid &nbsp;|&nbsp; 13. Lupinen &nbsp;|&nbsp; 14. Weichtiere'
+    };
+
+    function applyLang(lang) {
+      // Update all translatable elements via data-it/en/de attributes
+      document.querySelectorAll('[data-it]').forEach(el => {
+        const val = el.dataset[lang];
+        if (val !== undefined) el.textContent = val;
+      });
+
+      // Allergen list uses innerHTML for &nbsp; entities
+      const allergenList = document.querySelector('.allergen-list');
+      if (allergenList) allergenList.innerHTML = ALLERGEN_TEXTS[lang];
+
+      // Update lang buttons
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+
+      // Update <html lang> attribute
+      document.documentElement.lang = lang;
+
+      // Persist choice
+      localStorage.setItem('jb77-lang', lang);
+    }
+
+    // Lang button clicks
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.lang !== document.documentElement.lang) {
+          applyLang(btn.dataset.lang);
+        }
+      });
+    });
+
+    // Restore saved language on page load
+    const savedLang = localStorage.getItem('jb77-lang');
+    if (savedLang && savedLang !== 'it') applyLang(savedLang);
+
+    // ── SCROLL-REVEAL ────────────────────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    function observeRevealTargets() {
+      document.querySelectorAll('.item, .cocktail-card').forEach((el, i) => {
+        el.style.transitionDelay = (i % 12) * 0.04 + 's';
+        revealObserver.observe(el);
+      });
+    }
+
+    observeRevealTargets();
+
+    // ── TAB NAVIGATION ───────────────────────────────────────────────
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.menu-section');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+
+        sections.forEach(s => {
+          s.classList.remove('visible');
+          if (s.id === 'tab-' + target) {
+            s.classList.add('visible');
+            // re-observe unrevealed items in the newly visible section
+            s.querySelectorAll('.item:not(.revealed), .cocktail-card:not(.revealed)').forEach((el, i) => {
+              el.style.transitionDelay = i * 0.04 + 's';
+              revealObserver.observe(el);
+            });
+          }
+        });
+
+        // scroll tab into view on mobile
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        // scroll to top of menu
+        document.querySelector('.menu-nav').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
