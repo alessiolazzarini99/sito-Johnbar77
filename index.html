@@ -44,6 +44,13 @@
       text-align: center;
       padding: 2rem;
       overflow: hidden;
+      background-color: var(--navy);
+      background-image:
+        linear-gradient(180deg, rgba(7,9,52,0.78) 0%, rgba(7,9,52,0.86) 55%, rgba(7,9,52,0.97) 100%),
+        url('assets/spazi-01.jpg');
+      background-size: cover, cover;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
     }
 
     .hero::before {
@@ -231,20 +238,31 @@
       z-index: 100;
       background: var(--navy);
       border-bottom: 1px solid var(--border);
-      padding: 0 1rem;
+      display: flex;
+      align-items: stretch;
+    }
+
+    /* horizontal scroller — holds only the tabs */
+    .menu-nav-scroll {
+      flex: 1 1 auto;
+      min-width: 0;
       overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      scroll-snap-type: x proximity;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
     }
-    .menu-nav::-webkit-scrollbar { display: none; }
+    .menu-nav-scroll::-webkit-scrollbar { display: none; }
 
     .menu-nav-inner {
       display: flex;
       gap: 0;
       min-width: max-content;
       margin: 0 auto;
-      max-width: 960px;
-      align-items: stretch;
+      padding: 0 1rem;
     }
 
     .tab-btn {
@@ -261,6 +279,7 @@
       position: relative;
       transition: color 0.3s;
       white-space: nowrap;
+      scroll-snap-align: start;
     }
 
     .tab-btn::after {
@@ -282,16 +301,14 @@
       transform: scaleX(1);
     }
 
-    /* ── LANG SWITCHER ── */
+    /* ── LANG SWITCHER — fixed, outside the horizontal scroller ── */
     .lang-switcher {
       display: flex;
-      align-items: center;
-      margin-left: auto;
-      border-left: 1px solid var(--border);
-      position: sticky;
-      right: 0;
-      background: var(--navy);
+      align-items: stretch;
       flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      background: var(--navy);
+      z-index: 1;
     }
 
     .lang-btn {
@@ -301,9 +318,9 @@
       font-family: 'Poppins', sans-serif;
       font-weight: 400;
       font-size: 0.58rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      padding: 1.1rem 0.65rem;
+      padding: 1.1rem 0.6rem;
       cursor: pointer;
       transition: color 0.3s;
       white-space: nowrap;
@@ -312,6 +329,10 @@
     .lang-btn.active,
     .lang-btn:hover {
       color: var(--gold);
+    }
+
+    @media (max-width: 420px) {
+      .lang-btn { padding: 1.1rem 0.45rem; letter-spacing: 0.1em; }
     }
 
     /* ── MENU SECTIONS ── */
@@ -555,6 +576,53 @@
       margin-bottom: 1rem;
     }
 
+    /* ── CATERING ── */
+    .catering-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.8rem;
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .catering-photo {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      filter: brightness(0.82) saturate(0.95);
+    }
+
+    .catering-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .catering-cta {
+      display: inline-block;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border: 1px solid var(--gold);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .catering-cta:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
     /* ── ALLERGENI FOOTER ── */
     .allergen-bar {
       background: var(--navy-mid);
@@ -720,56 +788,45 @@
   <!-- ═══════════ PHOTO STRIP ═══════════ -->
   <div class="photo-strip">
     <div class="photo-strip-inner">
-      <div class="photo-slot">
-        <div class="photo-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-          <span>foto bar</span>
-        </div>
-      </div>
-      <div class="photo-slot">
-        <div class="photo-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-          <span>foto cocktail</span>
-        </div>
-      </div>
-      <div class="photo-slot">
-        <div class="photo-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-          <span>foto locale</span>
-        </div>
-      </div>
+      <div class="photo-slot"><img src="assets/spazi-02.jpg" alt="La sala del JohnBar 77" loading="lazy" /></div>
+      <div class="photo-slot"><img src="assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" /></div>
+      <div class="photo-slot"><img src="assets/cocktail-05.jpg" alt="Preparazione di uno spritz al banco" loading="lazy" /></div>
     </div>
   </div>
 
   <!-- ═══════════ NAV TABS ═══════════ -->
   <nav class="menu-nav" id="menu-nav">
-    <div class="menu-nav-inner">
-      <button class="tab-btn active" data-tab="caffe"
-              data-it="Caffè" data-en="Coffee" data-de="Kaffee">Caffè</button>
-      <button class="tab-btn" data-tab="colazioni"
-              data-it="Colazioni" data-en="Breakfast" data-de="Frühstück">Colazioni</button>
-      <button class="tab-btn" data-tab="cibi"
-              data-it="Cibi" data-en="Food" data-de="Speisen">Cibi</button>
-      <button class="tab-btn" data-tab="cocktail"
-              data-it="Cocktail" data-en="Cocktail" data-de="Cocktail">Cocktail</button>
-      <button class="tab-btn" data-tab="inostri"
-              data-it="I Nostri Cocktail" data-en="Our Cocktails" data-de="Unsere Cocktails">I Nostri Cocktail</button>
-      <button class="tab-btn" data-tab="aperitivi"
-              data-it="Aperitivi" data-en="Aperitifs" data-de="Aperitifs">Aperitivi</button>
-      <button class="tab-btn" data-tab="vini"
-              data-it="Vini" data-en="Wines" data-de="Weine">Vini</button>
-      <button class="tab-btn" data-tab="bevande"
-              data-it="Bevande" data-en="Drinks" data-de="Getränke">Bevande</button>
-      <button class="tab-btn" data-tab="distillati"
-              data-it="Distillati" data-en="Spirits" data-de="Spirituosen">Distillati</button>
-      <button class="tab-btn" data-tab="gelato"
-              data-it="Gelato" data-en="Ice Cream" data-de="Eis">Gelato</button>
-
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="it">IT</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="de">DE</button>
+    <div class="menu-nav-scroll" id="menu-nav-scroll">
+      <div class="menu-nav-inner">
+        <button class="tab-btn active" data-tab="caffe"
+                data-it="Caffè" data-en="Coffee" data-de="Kaffee">Caffè</button>
+        <button class="tab-btn" data-tab="colazioni"
+                data-it="Colazioni" data-en="Breakfast" data-de="Frühstück">Colazioni</button>
+        <button class="tab-btn" data-tab="cibi"
+                data-it="Cibi" data-en="Food" data-de="Speisen">Cibi</button>
+        <button class="tab-btn" data-tab="cocktail"
+                data-it="Cocktail" data-en="Cocktail" data-de="Cocktail">Cocktail</button>
+        <button class="tab-btn" data-tab="inostri"
+                data-it="I Nostri Cocktail" data-en="Our Cocktails" data-de="Unsere Cocktails">I Nostri Cocktail</button>
+        <button class="tab-btn" data-tab="aperitivi"
+                data-it="Aperitivi" data-en="Aperitifs" data-de="Aperitifs">Aperitivi</button>
+        <button class="tab-btn" data-tab="vini"
+                data-it="Vini" data-en="Wines" data-de="Weine">Vini</button>
+        <button class="tab-btn" data-tab="bevande"
+                data-it="Bevande" data-en="Drinks" data-de="Getränke">Bevande</button>
+        <button class="tab-btn" data-tab="distillati"
+                data-it="Distillati" data-en="Spirits" data-de="Spirituosen">Distillati</button>
+        <button class="tab-btn" data-tab="gelato"
+                data-it="Gelato" data-en="Ice Cream" data-de="Eis">Gelato</button>
+        <button class="tab-btn" data-tab="catering"
+                data-it="Catering" data-en="Catering" data-de="Catering">Catering</button>
       </div>
+    </div>
+
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="it">IT</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="de">DE</button>
     </div>
   </nav>
 
@@ -1264,6 +1321,30 @@
       <div class="item"><div class="item-left"><div class="item-name">1 Kg</div></div><div class="item-price">€ 24,00</div></div>
     </section>
 
+    <!-- ── CATERING ── -->
+    <section class="menu-section" id="tab-catering">
+      <div class="section-header">
+        <div class="section-title"
+             data-it="catering" data-en="catering" data-de="catering">catering</div>
+        <div class="section-tagline"
+             data-it="feste ed eventi privati"
+             data-en="private parties &amp; events"
+             data-de="private Feiern &amp; Events">feste ed eventi privati</div>
+      </div>
+
+      <div class="catering-body">
+        <img class="catering-photo" src="assets/evento-01.jpg"
+             alt="Servizio aperitivo ai tavoli del JohnBar 77" loading="lazy" />
+        <p class="catering-text"
+           data-it="Rendiamo speciale ogni occasione: aperitivi aziendali, feste private, compleanni e ricorrenze. Curiamo per te cocktail, vini e taglieri con la stessa qualità e professionalità di sempre, nel nostro locale o dove preferisci. Raccontaci la tua idea e prepareremo una proposta su misura."
+           data-en="We make every occasion special: corporate aperitifs, private parties, birthdays and celebrations. We craft cocktails, wines and platters with our usual quality and professionalism, at our venue or wherever you prefer. Tell us your idea and we will put together a tailor-made proposal."
+           data-de="Wir machen jeden Anlass besonders: Firmen-Aperitifs, private Feiern, Geburtstage und Jubiläen. Wir kümmern uns um Cocktails, Weine und Platten mit gewohnter Qualität und Professionalität, in unserem Lokal oder wo Sie möchten. Erzählen Sie uns Ihre Idee und wir erstellen ein massgeschneidertes Angebot.">Rendiamo speciale ogni occasione: aperitivi aziendali, feste private, compleanni e ricorrenze. Curiamo per te cocktail, vini e taglieri con la stessa qualità e professionalità di sempre, nel nostro locale o dove preferisci. Raccontaci la tua idea e prepareremo una proposta su misura.</p>
+        <a class="catering-cta"
+           href="mailto:johnbar77.gjoni@gmail.com?subject=Richiesta%20catering%20%2F%20evento%20privato"
+           data-it="Richiedi un preventivo" data-en="Request a quote" data-de="Angebot anfordern">Richiedi un preventivo</a>
+      </div>
+    </section>
+
   </main>
 
   <!-- ── ALLERGENI ── -->
@@ -1359,6 +1440,37 @@
     // ── TAB NAVIGATION ───────────────────────────────────────────────
     const tabs = document.querySelectorAll('.tab-btn');
     const sections = document.querySelectorAll('.menu-section');
+    const menuNav = document.querySelector('.menu-nav');
+    const navScroll = document.getElementById('menu-nav-scroll');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Reliable "scroll to the top of the menu" — the sticky navbar sits flush at the
+    // top of the viewport and the section content starts just below it. Computed
+    // explicitly (not scrollIntoView) so it behaves the same on iOS Safari / Android.
+    function scrollToMenuTop() {
+      const navTop = menuNav.offsetTop; // distance from document top to the sticky anchor
+      try {
+        window.scrollTo({ top: navTop, behavior: prefersReduced ? 'auto' : 'smooth' });
+      } catch (e) {
+        window.scrollTo(0, navTop); // older browsers without options support
+      }
+      // Safari can drop a smooth scroll fired mid-layout — re-assert on the next frame.
+      requestAnimationFrame(() => {
+        if (Math.abs(window.pageYOffset - navTop) > 2) window.scrollTo(0, navTop);
+      });
+    }
+
+    // Center the active tab inside the horizontal scroller (no vertical page movement).
+    function centerActiveTab(btn) {
+      if (!navScroll) return;
+      const left = btn.offsetLeft - (navScroll.clientWidth - btn.clientWidth) / 2;
+      const clamped = Math.max(0, Math.min(left, navScroll.scrollWidth - navScroll.clientWidth));
+      try {
+        navScroll.scrollTo({ left: clamped, behavior: prefersReduced ? 'auto' : 'smooth' });
+      } catch (e) {
+        navScroll.scrollLeft = clamped;
+      }
+    }
 
     tabs.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1379,11 +1491,8 @@
           }
         });
 
-        // scroll tab into view on mobile
-        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-        // scroll to top of menu
-        document.querySelector('.menu-nav').scrollIntoView({ behavior: 'smooth' });
+        centerActiveTab(btn);
+        scrollToMenuTop();
       });
     });
   </script>
