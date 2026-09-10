@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers — static assets only (no Worker script).
+  // Docs: https://developers.cloudflare.com/workers/static-assets/
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sito-johnbar77",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./",
+    // "/menu"  -> 307 -> "/menu/"  -> serves "/menu/index.html"
+    // "/"      -> serves "/index.html"
+    "html_handling": "auto-trailing-slash",
+    // Unknown paths: serve /404.html if present, otherwise a plain 404.
+    "not_found_handling": "404-page"
+  }
+}

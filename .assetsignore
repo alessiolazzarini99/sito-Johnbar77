@@ -1,0 +1,10 @@
+# Files/dirs NOT uploaded to Cloudflare as static assets
+assets (no compressed)/
+wrangler.jsonc
+.assetsignore
+.gitignore
+.git/
+node_modules/
+package.json
+package-lock.json
+README.md

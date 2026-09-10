@@ -1,0 +1,13 @@
+{
+  "name": "sito-johnbar77",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sito JohnBar 77 — landing page + menu (Cloudflare Workers static assets)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
