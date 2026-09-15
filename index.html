@@ -49,9 +49,18 @@
       padding: 2rem;
       overflow: hidden;
       background-color: var(--navy);
+      /* JPG baseline first; the two WebP-enhanced declarations below override it only
+         in browsers that understand image-set() — unsupported browsers ignore the
+         whole (invalid) declaration and keep this one, so the fallback always works. */
       background-image:
         linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
         url('/assets/spazi-01.jpg');
+      background-image:
+        linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
+        -webkit-image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
+      background-image:
+        linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
+        image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
       background-size: cover, cover;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
@@ -215,16 +224,23 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── GALLERY ── */
+    /* ── GALLERY ──
+       Flexbox + justify-content:center (instead of a grid) so an incomplete
+       last row centers itself automatically, whatever the photo count is —
+       and flex-grow lets those leftover images grow (up to max-width) to
+       balance the freed-up space, instead of leaving a lopsided row. */
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 0.75rem;
     }
 
     .gallery figure {
       position: relative;
       overflow: hidden;
+      flex: 1 1 260px;
+      max-width: 340px;
       aspect-ratio: 4 / 3;
       border: 1px solid var(--border);
     }
@@ -239,15 +255,33 @@
     }
 
     .gallery figure:hover img {
-      transform: scale(1.05);
+      transform: scale(1.03);
       filter: brightness(0.95) saturate(1);
     }
 
-    /* ── HIGHLIGHTS ── */
+    /* ── HIGHLIGHTS ──
+       Desktop: exactly one row of 5. Tablet: wraps. Mobile: horizontal
+       scroll-snap, consistent with the category-tab pattern used in /menu. */
     .highlights {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .highlights { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .highlights {
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.3rem;
+      }
+      .hl-card { flex: 0 0 68%; scroll-snap-align: start; }
     }
 
     .hl-card {
@@ -281,6 +315,131 @@
       text-transform: uppercase;
       color: var(--gold);
       margin-top: 1.2rem;
+    }
+
+    /* ── RECENSIONI ── */
+    .reviews-summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-bottom: 2.25rem;
+      flex-wrap: wrap;
+    }
+    .reviews-stars { color: var(--gold); letter-spacing: 0.12em; font-size: 0.95rem; }
+    .reviews-count { font-size: 0.7rem; letter-spacing: 0.05em; color: var(--text-muted); }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .review-card {
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.4rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.85rem;
+    }
+
+    .review-text {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .review-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .reviews-empty {
+      text-align: center;
+      font-family: 'Poppins', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .reviews-cta { text-align: center; }
+
+    /* ── DOVE SIAMO ── */
+    .map-wrap {
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--navy-mid);
+      overflow: hidden;
+    }
+
+    .map-svg { display: block; width: 100%; height: auto; }
+
+    .map-road {
+      fill: none;
+      stroke: rgba(255,255,255,0.28);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 1 7;
+    }
+
+    .map-territory {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1;
+      stroke-dasharray: 3 5;
+      opacity: 0.55;
+    }
+
+    .map-dot-minor { fill: var(--white); opacity: 0.65; }
+
+    .map-dot-main { fill: var(--gold); stroke: var(--navy); stroke-width: 2; }
+
+    .map-dot-main-pulse {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.5;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: mapPulse 2.6s ease-out infinite;
+    }
+    @keyframes mapPulse {
+      0%   { transform: scale(1);   opacity: 0.9; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+
+    .map-pin-stem { stroke: var(--gold); stroke-width: 1.2; opacity: 0.85; }
+
+    .map-label { font-family: 'Poppins', sans-serif; fill: var(--white); }
+    .map-label-minor { font-size: 9px; fill: rgba(255,255,255,0.55); letter-spacing: 0.12em; }
+    .map-label-territory { font-size: 10px; fill: var(--gold-light); letter-spacing: 0.3em; font-weight: 600; }
+    .map-label-main { font-size: 12px; font-weight: 700; fill: var(--gold); letter-spacing: 0.1em; }
+    .map-label-sub { font-size: 9px; fill: rgba(255,255,255,0.65); font-style: italic; }
+
+    .map-info { text-align: center; }
+    .map-address {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .map-dot-main-pulse { animation: none; opacity: 0; }
     }
 
     /* ── SCROLL-REVEAL ── */
@@ -501,22 +660,18 @@
   <main>
 
     <!-- ═══════════ CHI SIAMO ═══════════ -->
-    <!--
-      BOZZA PLACEHOLDER — testo da rivedere/riscrivere prima della pubblicazione.
-      Non sono stati inventati dettagli specifici (anno di apertura, storia, gestione).
-    -->
     <section class="section" id="chi-siamo">
       <div class="section-head reveal">
         <span class="section-kicker">Chi siamo</span>
         <h2 class="section-title">Il bar di Comano Terme</h2>
       </div>
       <p class="about-text reveal">
-        JohnBar 77 è il posto dove iniziare la giornata con un buon caffè e chiuderla con un cocktail
-        fatto come si deve. Caffetteria, aperitivi, cocktail della casa e gelato artigianale, in un
-        ambiente curato nel cuore di Comano Terme.
-        <br /><br />
-        <em>[Bozza da rivedere: aggiungere una o due frasi sulla storia del locale, l'anno di apertura
-        e cosa rende speciale JohnBar 77.]</em>
+        Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due
+        giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come
+        bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità.
+        Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al
+        gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro
+        motto: sono il modo in cui lavoriamo ogni giorno.
       </p>
     </section>
 
@@ -527,13 +682,55 @@
         <h2 class="section-title">Uno sguardo al locale</h2>
       </div>
       <div class="gallery">
-        <figure class="reveal"><img src="/assets/hero-01.jpg" alt="La facciata del JohnBar 77" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/hero-02.jpg" alt="Tavolo aperitivo del JohnBar 77" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/dettaglio-02.jpg" alt="Caffè servito al bancone" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/hero-03.jpg" alt="Servizio al banco" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/dettaglio-03.jpg" alt="Dettaglio di un caffè speciale" loading="lazy" /></figure>
-        <figure class="reveal"><img src="/assets/dettaglio-04.jpg" alt="Il menù cartaceo del JohnBar 77" loading="lazy" /></figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/hero-01-800.webp 800w, /assets/hero-01.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/hero-01-800.jpg 800w, /assets/hero-01.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/hero-01.jpg" alt="La facciata del JohnBar 77" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/dettaglio-01-800.webp 800w, /assets/dettaglio-01.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/dettaglio-01-800.jpg 800w, /assets/dettaglio-01.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/hero-02-800.webp 800w, /assets/hero-02.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/hero-02-800.jpg 800w, /assets/hero-02.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/hero-02.jpg" alt="Tavolo aperitivo del JohnBar 77" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/dettaglio-02-800.webp 800w, /assets/dettaglio-02.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/dettaglio-02-800.jpg 800w, /assets/dettaglio-02.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/dettaglio-02.jpg" alt="Caffè servito al bancone" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/hero-03-800.webp 800w, /assets/hero-03.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/hero-03-800.jpg 800w, /assets/hero-03.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/hero-03.jpg" alt="Servizio al banco" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/dettaglio-03-800.webp 800w, /assets/dettaglio-03.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/dettaglio-03-800.jpg 800w, /assets/dettaglio-03.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/dettaglio-03.jpg" alt="Dettaglio di un caffè speciale" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
+        <figure class="reveal">
+          <picture>
+            <source type="image/webp" srcset="/assets/dettaglio-04-800.webp 800w, /assets/dettaglio-04.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <source type="image/jpeg" srcset="/assets/dettaglio-04-800.jpg 800w, /assets/dettaglio-04.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
+            <img src="/assets/dettaglio-04.jpg" alt="Il menù cartaceo del JohnBar 77" loading="lazy" width="1600" height="1066" />
+          </picture>
+        </figure>
       </div>
     </section>
 
@@ -567,6 +764,93 @@
       </div>
     </section>
 
+    <!-- ═══════════ RECENSIONI (Google Places API New) ═══════════ -->
+    <section class="section" id="recensioni">
+      <div class="section-head reveal">
+        <span class="section-kicker">Recensioni</span>
+        <h2 class="section-title">Cosa dicono di noi</h2>
+      </div>
+
+      <div class="reviews-summary" id="reviewsSummary" hidden>
+        <span class="reviews-stars" id="reviewsStars" aria-hidden="true"></span>
+        <span class="reviews-count" id="reviewsCount"></span>
+      </div>
+
+      <div class="reviews-grid" id="reviewsGrid" hidden></div>
+
+      <p class="reviews-empty reveal" id="reviewsEmpty">Non vediamo l'ora di leggere la tua opinione.</p>
+
+      <div class="reviews-cta reveal">
+        <a class="btn btn-ghost" id="reviewsCtaBtn" href="https://www.google.com/search?q=johnbar+77+comano+terme" target="_blank" rel="noopener">Lascia una recensione su Google</a>
+      </div>
+    </section>
+
+    <!-- ═══════════ DOVE SIAMO — mappa illustrata (decorativa, non funzionale) ═══════════ -->
+    <section class="section" id="dove-siamo">
+      <div class="section-head reveal">
+        <span class="section-kicker">Dove siamo</span>
+        <h2 class="section-title">Nel cuore delle Giudicarie</h2>
+      </div>
+
+      <div class="map-wrap reveal">
+        <svg class="map-svg" viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mapTitle mapDesc">
+          <title id="mapTitle">Mappa illustrata del territorio di Comano Terme</title>
+          <desc id="mapDesc">Illustrazione stilizzata e non in scala delle Giudicarie, con la posizione del JohnBar 77 a Ponte Arche.</desc>
+
+          <defs>
+            <pattern id="mapDots" width="22" height="22" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.10)" />
+            </pattern>
+          </defs>
+
+          <!-- sagoma del territorio, due toni sovrapposti -->
+          <path d="M40,120 C90,40 220,30 300,70 C380,20 520,40 560,120 C600,210 560,320 480,380 C400,440 260,440 180,390 C90,340 20,240 40,120 Z"
+                fill="var(--navy-light)" opacity="0.55" />
+          <path d="M170,90 C260,50 400,60 460,140 C520,220 500,330 410,390 C330,440 210,420 150,350 C90,280 90,150 170,90 Z"
+                fill="var(--navy-mid)" opacity="0.65" />
+
+          <!-- texture puntinata, coerente con l'hero -->
+          <rect x="0" y="0" width="600" height="460" fill="url(#mapDots)" />
+
+          <!-- strade stilizzate -->
+          <path class="map-road" d="M155,95 C190,140 175,190 210,225 C235,250 260,235 300,235" />
+          <path class="map-road" d="M300,235 C340,235 360,255 345,290 C330,320 280,330 250,365 C220,395 195,390 165,375" />
+          <path class="map-road" d="M300,235 C330,215 345,190 335,150 C328,120 345,100 375,90" />
+
+          <!-- territorio di Comano Terme -->
+          <ellipse cx="300" cy="240" rx="95" ry="72" class="map-territory" />
+          <text x="300" y="150" text-anchor="middle" class="map-label map-label-territory">COMANO TERME</text>
+
+          <!-- Stenico (minore) -->
+          <circle cx="155" cy="95" r="4" class="map-dot-minor" />
+          <text x="155" y="80" text-anchor="middle" class="map-label map-label-minor">STENICO</text>
+
+          <!-- Fiavé (minore) -->
+          <circle cx="165" cy="375" r="4" class="map-dot-minor" />
+          <text x="165" y="395" text-anchor="middle" class="map-label map-label-minor">FIAVÉ</text>
+
+          <!-- JohnBar 77 — marker principale a Ponte Arche -->
+          <g class="map-marker-main">
+            <line x1="300" y1="235" x2="300" y2="192" class="map-pin-stem" />
+            <circle cx="300" cy="235" r="9" class="map-dot-main-pulse" />
+            <circle cx="300" cy="235" r="9" class="map-dot-main" />
+            <g transform="translate(300,180)" aria-hidden="true">
+              <path d="M-7,-9 L7,-9 L0,0 Z" fill="none" stroke="var(--navy)" stroke-width="1.4" />
+              <line x1="0" y1="0" x2="0" y2="9" stroke="var(--navy)" stroke-width="1.4" />
+              <line x1="-5" y1="9" x2="5" y2="9" stroke="var(--navy)" stroke-width="1.4" />
+            </g>
+            <text x="300" y="167" text-anchor="middle" class="map-label map-label-main">JOHNBAR 77</text>
+            <text x="300" y="257" text-anchor="middle" class="map-label map-label-sub">Ponte Arche</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="map-info reveal">
+        <p class="map-address">Via Cesare Battisti, 3<br />38077 Comano Terme (TN)</p>
+        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Cesare+Battisti+3+Comano+Terme+TN" target="_blank" rel="noopener">Come arrivare</a>
+      </div>
+    </section>
+
   </main>
 
   <!-- ── FOOTER (identico a /menu) ── -->
@@ -587,6 +871,10 @@
 
   <script>
     // ── SCROLL-REVEAL (coerente con /menu) ──
+    // Ogni elemento .reveal riceve un delay progressivo basato sulla sua posizione
+    // fra i fratelli .reveal dello stesso genitore: così ogni gruppo (le card
+    // "cosa trovi da noi", le foto della gallery, ecc.) si anima in sequenza a
+    // partire da 0, invece di ereditare un contatore globale poco prevedibile.
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -596,10 +884,127 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-      el.style.transitionDelay = (i % 8) * 0.05 + 's';
-      revealObserver.observe(el);
-    });
+    function initReveal(root) {
+      (root || document).querySelectorAll('.reveal').forEach(el => {
+        if (el.dataset.revealInit) return;
+        el.dataset.revealInit = '1';
+        const siblings = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
+        const idx = Math.min(siblings.indexOf(el), 7);
+        el.style.transitionDelay = idx * 0.06 + 's';
+        revealObserver.observe(el);
+      });
+    }
+    initReveal();
+
+    // ── HERO PARALLAX (leggero, disattivato con prefers-reduced-motion) ──
+    (function () {
+      const hero = document.querySelector('.hero');
+      if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let ticking = false;
+      function update() {
+        const offset = Math.min(window.scrollY * 0.15, 80);
+        // sposta solo il layer della foto (2° background-image), non il gradiente
+        hero.style.backgroundPosition = `center center, center calc(50% + ${offset}px)`;
+        ticking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+    })();
+
+    // ── RECENSIONI GOOGLE (Places API New) ──
+    (function () {
+      // Compila queste due costanti quando la scheda Google Business è pronta.
+      const GOOGLE_API_KEY = "";
+      const GOOGLE_PLACE_ID = "";
+
+      const CACHE_KEY = 'jb77_google_reviews_v1';
+      const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+
+      const grid = document.getElementById('reviewsGrid');
+      const summary = document.getElementById('reviewsSummary');
+      const starsEl = document.getElementById('reviewsStars');
+      const countEl = document.getElementById('reviewsCount');
+      const emptyEl = document.getElementById('reviewsEmpty');
+      const ctaBtn = document.getElementById('reviewsCtaBtn');
+      if (!grid) return;
+
+      if (ctaBtn && GOOGLE_PLACE_ID) {
+        ctaBtn.href = `https://search.google.com/local/writereview?placeid=${encodeURIComponent(GOOGLE_PLACE_ID)}`;
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      }
+
+      function starString(rating) {
+        const r = Math.max(0, Math.min(5, Math.round(rating || 0)));
+        return '★★★★★'.slice(0, r) + '☆☆☆☆☆'.slice(0, 5 - r);
+      }
+
+      function showEmptyFallback() {
+        grid.hidden = true;
+        summary.hidden = true;
+        emptyEl.hidden = false;
+      }
+
+      function renderReviews(data) {
+        if (!data || !Array.isArray(data.reviews) || data.reviews.length === 0) return false;
+
+        grid.innerHTML = data.reviews.slice(0, 5).map(r => {
+          const name = (r.authorAttribution && r.authorAttribution.displayName) || 'Cliente Google';
+          const text = (r.text && r.text.text) || (r.originalText && r.originalText.text) || '';
+          const when = r.relativePublishTimeDescription || '';
+          return `<article class="review-card">
+            <div class="review-stars" aria-hidden="true">${starString(r.rating)}</div>
+            <p class="review-text">${escapeHtml(text)}</p>
+            <div class="review-meta"><span class="review-author">${escapeHtml(name)}</span><span class="review-when">${escapeHtml(when)}</span></div>
+          </article>`;
+        }).join('');
+        grid.hidden = false;
+
+        if (typeof data.rating === 'number' && typeof data.userRatingCount === 'number') {
+          starsEl.textContent = `${starString(data.rating)} ${data.rating.toFixed(1)}`;
+          countEl.textContent = `(${data.userRatingCount} recensioni su Google)`;
+          summary.hidden = false;
+        }
+
+        emptyEl.hidden = true;
+        initReveal(grid); // stagger anche per le card appena inserite
+        return true;
+      }
+
+      // Senza chiavi configurate: nessuna chiamata, nessun errore — solo il bottone.
+      if (!GOOGLE_API_KEY || !GOOGLE_PLACE_ID) {
+        showEmptyFallback();
+        return;
+      }
+
+      // Cache in localStorage — refresh solo dopo 24h.
+      let cached = null;
+      try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch (e) { cached = null; }
+
+      if (cached && cached.ts && (Date.now() - cached.ts) < CACHE_TTL_MS && renderReviews(cached.data)) {
+        return; // cache ancora valida, nessuna chiamata di rete
+      }
+
+      fetch(`https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}`, {
+        headers: {
+          'X-Goog-Api-Key': GOOGLE_API_KEY,
+          'X-Goog-FieldMask': 'reviews,rating,userRatingCount'
+        }
+      })
+        .then(res => { if (!res.ok) throw new Error('Places API ' + res.status); return res.json(); })
+        .then(data => {
+          if (!renderReviews(data)) throw new Error('nessuna recensione nella risposta');
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch (e) { /* storage pieno/non disponibile: ignora */ }
+        })
+        .catch(() => {
+          // rete/errore: prova comunque con una cache anche scaduta, altrimenti nascondi senza errori
+          if (cached && renderReviews(cached.data)) return;
+          showEmptyFallback();
+        });
+    })();
 
     // ── MAIN NAV (hamburger overlay) ──
     (function () {

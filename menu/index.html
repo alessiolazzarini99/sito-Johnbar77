@@ -45,9 +45,18 @@
       padding: 2rem;
       overflow: hidden;
       background-color: var(--navy);
+      /* JPG baseline first; the two WebP-enhanced declarations below override it only
+         in browsers that understand image-set() — unsupported browsers ignore the
+         whole (invalid) declaration and keep this one, so the fallback always works. */
       background-image:
         linear-gradient(180deg, rgba(7,9,52,0.78) 0%, rgba(7,9,52,0.86) 55%, rgba(7,9,52,0.97) 100%),
         url('/assets/spazi-01.jpg');
+      background-image:
+        linear-gradient(180deg, rgba(7,9,52,0.78) 0%, rgba(7,9,52,0.86) 55%, rgba(7,9,52,0.97) 100%),
+        -webkit-image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
+      background-image:
+        linear-gradient(180deg, rgba(7,9,52,0.78) 0%, rgba(7,9,52,0.86) 55%, rgba(7,9,52,0.97) 100%),
+        image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
       background-size: cover, cover;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
@@ -198,6 +207,8 @@
       position: relative;
       overflow: hidden;
     }
+
+    .photo-slot picture { display: block; width: 100%; height: 100%; }
 
     .photo-slot img {
       width: 100%; height: 100%;
@@ -587,11 +598,13 @@
       text-align: center;
     }
 
+    .catering-photo-wrap { display: block; width: 100%; height: 300px; border: 1px solid var(--border); overflow: hidden; }
+
     .catering-photo {
       width: 100%;
       height: 300px;
       object-fit: cover;
-      border: 1px solid var(--border);
+      display: block;
       filter: brightness(0.82) saturate(0.95);
     }
 
@@ -908,9 +921,27 @@
   <!-- ═══════════ PHOTO STRIP ═══════════ -->
   <div class="photo-strip">
     <div class="photo-strip-inner">
-      <div class="photo-slot"><img src="/assets/spazi-02.jpg" alt="La sala del JohnBar 77" loading="lazy" /></div>
-      <div class="photo-slot"><img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" /></div>
-      <div class="photo-slot"><img src="/assets/cocktail-05.jpg" alt="Preparazione di uno spritz al banco" loading="lazy" /></div>
+      <div class="photo-slot">
+        <picture>
+          <source type="image/webp" srcset="/assets/spazi-02-800.webp 800w, /assets/spazi-02.webp 1600w" sizes="33vw">
+          <source type="image/jpeg" srcset="/assets/spazi-02-800.jpg 800w, /assets/spazi-02.jpg 1600w" sizes="33vw">
+          <img src="/assets/spazi-02.jpg" alt="La sala del JohnBar 77" loading="lazy" width="1600" height="1066" />
+        </picture>
+      </div>
+      <div class="photo-slot">
+        <picture>
+          <source type="image/webp" srcset="/assets/dettaglio-01-800.webp 800w, /assets/dettaglio-01.webp 1600w" sizes="33vw">
+          <source type="image/jpeg" srcset="/assets/dettaglio-01-800.jpg 800w, /assets/dettaglio-01.jpg 1600w" sizes="33vw">
+          <img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" width="1600" height="1066" />
+        </picture>
+      </div>
+      <div class="photo-slot">
+        <picture>
+          <source type="image/webp" srcset="/assets/cocktail-05-800.webp 800w, /assets/cocktail-05.webp 1600w" sizes="33vw">
+          <source type="image/jpeg" srcset="/assets/cocktail-05-800.jpg 800w, /assets/cocktail-05.jpg 1600w" sizes="33vw">
+          <img src="/assets/cocktail-05.jpg" alt="Preparazione di uno spritz al banco" loading="lazy" width="1600" height="1280" />
+        </picture>
+      </div>
     </div>
   </div>
 
@@ -1453,8 +1484,12 @@
       </div>
 
       <div class="catering-body">
-        <img class="catering-photo" src="/assets/evento-01.jpg"
-             alt="Servizio aperitivo ai tavoli del JohnBar 77" loading="lazy" />
+        <picture class="catering-photo-wrap">
+          <source type="image/webp" srcset="/assets/evento-01-800.webp 800w, /assets/evento-01.webp 1600w" sizes="(max-width: 620px) 100vw, 620px">
+          <source type="image/jpeg" srcset="/assets/evento-01-800.jpg 800w, /assets/evento-01.jpg 1600w" sizes="(max-width: 620px) 100vw, 620px">
+          <img class="catering-photo" src="/assets/evento-01.jpg"
+               alt="Servizio aperitivo ai tavoli del JohnBar 77" loading="lazy" width="1600" height="1280" />
+        </picture>
         <p class="catering-text"
            data-it="Rendiamo speciale ogni occasione: aperitivi aziendali, feste private, compleanni e ricorrenze. Curiamo per te cocktail, vini e taglieri con la stessa qualità e professionalità di sempre, nel nostro locale o dove preferisci. Raccontaci la tua idea e prepareremo una proposta su misura."
            data-en="We make every occasion special: corporate aperitifs, private parties, birthdays and celebrations. We craft cocktails, wines and platters with our usual quality and professionalism, at our venue or wherever you prefer. Tell us your idea and we will put together a tailor-made proposal."
@@ -1495,6 +1530,22 @@
   </footer>
 
   <script>
+    // ── HERO PARALLAX (leggero, disattivato con prefers-reduced-motion) ──
+    (function () {
+      const hero = document.querySelector('.hero');
+      if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let ticking = false;
+      function update() {
+        const offset = Math.min(window.scrollY * 0.15, 80);
+        // sposta solo il layer della foto (2° background-image), non il gradiente
+        hero.style.backgroundPosition = `center center, center calc(50% + ${offset}px)`;
+        ticking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+    })();
+
     // ── LANGUAGE MANAGEMENT ──────────────────────────────────────────
     const ALLERGEN_TEXTS = {
       it: '1. Cereali contenenti glutine &nbsp;|&nbsp; 2. Crostacei &nbsp;|&nbsp; 3. Uova &nbsp;|&nbsp; 4. Pesce &nbsp;|&nbsp; 5. Arachidi &nbsp;|&nbsp; 6. Soia &nbsp;|&nbsp; 7. Latte &nbsp;|&nbsp; 8. Frutta a guscio &nbsp;|&nbsp; 9. Sedano &nbsp;|&nbsp; 10. Senape &nbsp;|&nbsp; 11. Semi di sesamo &nbsp;|&nbsp; 12. Anidride solforosa &nbsp;|&nbsp; 13. Lupini &nbsp;|&nbsp; 14. Molluschi',
