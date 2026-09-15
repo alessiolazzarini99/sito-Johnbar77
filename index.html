@@ -546,6 +546,10 @@
 
     .map-dot-place { fill: var(--gold-light); }
 
+    /* tappe intermedie (Tione, San Lorenzo Dorsino): marker più piccolo e discreto
+       delle mete finali, ma sempre etichettato */
+    .map-dot-place-minor { fill: var(--gold-light); opacity: 0.7; }
+
     .map-dot-main { fill: var(--gold); stroke: var(--navy); stroke-width: 2; }
 
     .map-dot-main-pulse {
@@ -565,6 +569,7 @@
 
     .map-label { font-family: 'Poppins', sans-serif; fill: var(--white); }
     .map-label-place { font-size: 10px; fill: rgba(255,255,255,0.78); letter-spacing: 0.14em; text-transform: uppercase; }
+    .map-label-place-minor { font-size: 8.5px; fill: rgba(255,255,255,0.55); letter-spacing: 0.12em; text-transform: uppercase; }
     .map-label-main { font-size: 12px; font-weight: 700; fill: var(--gold); letter-spacing: 0.1em; }
     .map-label-sub { font-size: 9px; fill: rgba(255,255,255,0.65); font-style: italic; }
 
@@ -962,7 +967,7 @@
       <div class="map-wrap reveal">
         <svg class="map-svg" viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mapTitle mapDesc">
           <title id="mapTitle">Mappa illustrata dei dintorni del JohnBar 77</title>
-          <desc id="mapDesc">Illustrazione stilizzata e non in scala, disegnata come schizzo sulla pagina: il JohnBar 77 a Ponte Arche al centro, con Trento, Riva del Garda, Tione di Trento e Madonna di Campiglio come riferimenti raggiungibili nelle rispettive direzioni.</desc>
+          <desc id="mapDesc">Illustrazione stilizzata e non in scala, disegnata come schizzo sulla pagina: il JohnBar 77 a Ponte Arche al centro, con percorsi verso Trento, Riva del Garda, verso Tione di Trento e Madonna di Campiglio, e verso San Lorenzo Dorsino e Molveno.</desc>
 
           <defs>
             <pattern id="mapDots" width="22" height="22" patternUnits="userSpaceOnUse">
@@ -973,11 +978,18 @@
           <!-- texture puntinata, coerente con l'hero — nessuno sfondo pieno sotto: si fonde con la pagina -->
           <rect x="0" y="0" width="600" height="460" fill="url(#mapDots)" />
 
-          <!-- collegamenti stilizzati, curve libere e irregolari (non strade reali) -->
+          <!-- collegamenti stilizzati, curve libere e irregolari (non strade reali).
+               Ponte Arche → Trento e Ponte Arche → Riva del Garda restano percorsi diretti.
+               Le altre due direttrici sono un'unica linea continua con una tappa intermedia,
+               non due raggi separati dal centro. -->
           <path class="map-road" d="M300,235 C350,208 378,238 408,206 C438,172 458,154 490,140" />
           <path class="map-road" d="M300,235 C322,268 272,298 300,328 C328,358 282,386 295,415" />
-          <path class="map-road" d="M300,235 C250,220 222,250 182,234 C152,222 128,234 100,245" />
-          <path class="map-road" d="M300,235 C232,200 192,182 152,160 C120,144 92,120 75,95" />
+
+          <!-- Ponte Arche → Tione di Trento (tappa) → Madonna di Campiglio (meta) -->
+          <path class="map-road" d="M300,235 C250,220 222,250 182,234 C152,222 128,234 100,245 C85,200 78,150 75,95" />
+
+          <!-- Ponte Arche → San Lorenzo Dorsino (tappa) → Molveno (meta) -->
+          <path class="map-road" d="M300,235 C335,205 320,165 355,135 C368,118 358,100 345,88 C336,68 322,42 325,35" />
 
           <!-- Trento — est / nord-est -->
           <circle cx="490" cy="140" r="5" class="map-dot-place" />
@@ -987,13 +999,21 @@
           <circle cx="295" cy="415" r="5" class="map-dot-place" />
           <text x="295" y="435" text-anchor="middle" class="map-label map-label-place">Riva del Garda</text>
 
-          <!-- Tione di Trento — ovest -->
-          <circle cx="100" cy="245" r="5" class="map-dot-place" />
-          <text x="100" y="266" text-anchor="middle" class="map-label map-label-place">Tione di Trento</text>
+          <!-- Tione di Trento — tappa intermedia verso Madonna di Campiglio (ovest) -->
+          <circle cx="100" cy="245" r="3.5" class="map-dot-place-minor" />
+          <text x="100" y="260" text-anchor="middle" class="map-label map-label-place-minor">Tione di Trento</text>
 
-          <!-- Madonna di Campiglio — nord-ovest, oltre Tione -->
+          <!-- Madonna di Campiglio — meta, nord-ovest oltre Tione -->
           <circle cx="75" cy="95" r="5" class="map-dot-place" />
           <text x="75" y="79" text-anchor="middle" class="map-label map-label-place">Madonna di Campiglio</text>
+
+          <!-- San Lorenzo Dorsino — tappa intermedia verso Molveno (nord) -->
+          <circle cx="345" cy="88" r="3.5" class="map-dot-place-minor" />
+          <text x="345" y="72" text-anchor="middle" class="map-label map-label-place-minor">San Lorenzo Dorsino</text>
+
+          <!-- Molveno — meta, nord oltre San Lorenzo Dorsino -->
+          <circle cx="325" cy="35" r="5" class="map-dot-place" />
+          <text x="325" y="19" text-anchor="middle" class="map-label map-label-place">Molveno</text>
 
           <!-- JohnBar 77 — marker principale a Ponte Arche -->
           <g class="map-marker-main">
