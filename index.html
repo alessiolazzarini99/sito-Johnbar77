@@ -224,39 +224,188 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── GALLERY ──
-       Flexbox + justify-content:center (instead of a grid) so an incomplete
-       last row centers itself automatically, whatever the photo count is —
-       and flex-grow lets those leftover images grow (up to max-width) to
-       balance the freed-up space, instead of leaving a lopsided row. */
-    .gallery {
+    /* ── GALLERY CAROUSEL ──
+       Horizontal scroll-snap track (same technique as the /menu category
+       tabs), one row only — far less vertical height than the old 3-row
+       grid. Arrows on desktop, native swipe on mobile, dots below track
+       the "most visible" slide via IntersectionObserver. */
+    .carousel {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      align-items: center;
       gap: 0.75rem;
     }
 
-    .gallery figure {
+    .carousel-track {
+      position: relative; /* makes this the offsetParent for slides, so their
+                              offsetLeft lines up with the track's own scrollLeft */
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 0.2rem;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-slide {
+      flex: 0 0 auto;
+      width: min(78vw, 360px);
+      aspect-ratio: 4 / 3;
+      scroll-snap-align: center;
       position: relative;
       overflow: hidden;
-      flex: 1 1 260px;
-      max-width: 340px;
-      aspect-ratio: 4 / 3;
       border: 1px solid var(--border);
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
     }
 
-    .gallery img {
+    .carousel-slide picture,
+    .carousel-slide img {
+      display: block;
       width: 100%;
       height: 100%;
+    }
+
+    .carousel-slide img {
       object-fit: cover;
-      display: block;
       filter: brightness(0.8) saturate(0.9);
       transition: transform 0.6s ease, filter 0.4s ease;
     }
 
-    .gallery figure:hover img {
+    .carousel-slide:hover img,
+    .carousel-slide:focus-visible img {
       transform: scale(1.03);
       filter: brightness(0.95) saturate(1);
+    }
+
+    .carousel-arrow {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(7,9,52,0.5);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s, opacity 0.3s;
+    }
+    .carousel-arrow:hover { border-color: rgba(201,169,110,0.55); background: rgba(201,169,110,0.08); }
+    .carousel-arrow:disabled { opacity: 0.3; cursor: default; }
+    .carousel-arrow:disabled:hover { border-color: var(--border); background: rgba(7,9,52,0.5); }
+
+    @media (max-width: 640px) {
+      .carousel-arrow { display: none; } /* swipe takes over on touch */
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.4rem;
+    }
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .carousel-dot.is-active { background: var(--gold); transform: scale(1.5); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(7,9,52,0.88);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+      padding: 4.5rem 1.25rem;
+    }
+    .lightbox.is-open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease, visibility 0s;
+    }
+
+    .lightbox-figure {
+      max-width: min(92vw, 1000px);
+      max-height: 78vh;
+      display: flex;
+    }
+    .lightbox-figure img {
+      max-width: 100%;
+      max-height: 78vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(7,9,52,0.55);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .lightbox-close:hover,
+    .lightbox-nav:hover { border-color: rgba(201,169,110,0.55); background: rgba(201,169,110,0.1); }
+
+    .lightbox-close {
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 44px;
+      height: 44px;
+      font-size: 1.5rem;
+    }
+
+    .lightbox-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      font-size: 1.6rem;
+    }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+
+    @media (max-width: 560px) {
+      .lightbox-nav { width: 38px; height: 38px; font-size: 1.2rem; }
+      .lightbox-prev { left: 0.5rem; }
+      .lightbox-next { right: 0.5rem; }
+      .lightbox-close { top: 0.75rem; right: 0.75rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lightbox { transition-duration: 0.01ms; }
     }
 
     /* ── HIGHLIGHTS ──
@@ -377,13 +526,12 @@
 
     .reviews-cta { text-align: center; }
 
-    /* ── DOVE SIAMO ── */
+    /* ── DOVE SIAMO ──
+       Nessuno sfondo/riquadro proprio: la mappa si fonde con lo sfondo
+       navy della pagina, restano solo linee, texture puntinata e marker. */
     .map-wrap {
       max-width: 640px;
       margin: 0 auto 2.5rem;
-      border: 1px solid var(--border);
-      background: var(--navy-mid);
-      overflow: hidden;
     }
 
     .map-svg { display: block; width: 100%; height: auto; }
@@ -391,20 +539,12 @@
     .map-road {
       fill: none;
       stroke: rgba(255,255,255,0.28);
-      stroke-width: 2;
+      stroke-width: 1.5;
       stroke-linecap: round;
       stroke-dasharray: 1 7;
     }
 
-    .map-territory {
-      fill: none;
-      stroke: var(--gold);
-      stroke-width: 1;
-      stroke-dasharray: 3 5;
-      opacity: 0.55;
-    }
-
-    .map-dot-minor { fill: var(--white); opacity: 0.65; }
+    .map-dot-place { fill: var(--gold-light); }
 
     .map-dot-main { fill: var(--gold); stroke: var(--navy); stroke-width: 2; }
 
@@ -424,8 +564,7 @@
     .map-pin-stem { stroke: var(--gold); stroke-width: 1.2; opacity: 0.85; }
 
     .map-label { font-family: 'Poppins', sans-serif; fill: var(--white); }
-    .map-label-minor { font-size: 9px; fill: rgba(255,255,255,0.55); letter-spacing: 0.12em; }
-    .map-label-territory { font-size: 10px; fill: var(--gold-light); letter-spacing: 0.3em; font-weight: 600; }
+    .map-label-place { font-size: 10px; fill: rgba(255,255,255,0.78); letter-spacing: 0.14em; text-transform: uppercase; }
     .map-label-main { font-size: 12px; font-weight: 700; fill: var(--gold); letter-spacing: 0.1em; }
     .map-label-sub { font-size: 9px; fill: rgba(255,255,255,0.65); font-style: italic; }
 
@@ -628,6 +767,20 @@
     </nav>
   </div>
 
+  <!-- ═══════════ LIGHTBOX (gallery) ═══════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ingrandita">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Chiudi">×</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Foto precedente">‹</button>
+    <figure class="lightbox-figure">
+      <picture>
+        <source type="image/webp" id="lightboxSourceWebp">
+        <source type="image/jpeg" id="lightboxSourceJpg">
+        <img id="lightboxImg" src="" alt="" />
+      </picture>
+    </figure>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Foto successiva">›</button>
+  </div>
+
   <!-- ═══════════ HERO ═══════════ -->
   <header class="hero">
     <div class="hero-content">
@@ -681,57 +834,71 @@
         <span class="section-kicker">Gallery</span>
         <h2 class="section-title">Uno sguardo al locale</h2>
       </div>
-      <div class="gallery">
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/hero-01-800.webp 800w, /assets/hero-01.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/hero-01-800.jpg 800w, /assets/hero-01.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/hero-01.jpg" alt="La facciata del JohnBar 77" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/dettaglio-01-800.webp 800w, /assets/dettaglio-01.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/dettaglio-01-800.jpg 800w, /assets/dettaglio-01.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/hero-02-800.webp 800w, /assets/hero-02.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/hero-02-800.jpg 800w, /assets/hero-02.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/hero-02.jpg" alt="Tavolo aperitivo del JohnBar 77" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/dettaglio-02-800.webp 800w, /assets/dettaglio-02.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/dettaglio-02-800.jpg 800w, /assets/dettaglio-02.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/dettaglio-02.jpg" alt="Caffè servito al bancone" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/hero-03-800.webp 800w, /assets/hero-03.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/hero-03-800.jpg 800w, /assets/hero-03.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/hero-03.jpg" alt="Servizio al banco" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/dettaglio-03-800.webp 800w, /assets/dettaglio-03.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/dettaglio-03-800.jpg 800w, /assets/dettaglio-03.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/dettaglio-03.jpg" alt="Dettaglio di un caffè speciale" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
-        <figure class="reveal">
-          <picture>
-            <source type="image/webp" srcset="/assets/dettaglio-04-800.webp 800w, /assets/dettaglio-04.webp 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <source type="image/jpeg" srcset="/assets/dettaglio-04-800.jpg 800w, /assets/dettaglio-04.jpg 1600w" sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px">
-            <img src="/assets/dettaglio-04.jpg" alt="Il menù cartaceo del JohnBar 77" loading="lazy" width="1600" height="1066" />
-          </picture>
-        </figure>
+      <div class="carousel reveal">
+        <button class="carousel-arrow carousel-arrow-prev" id="galPrev" type="button" aria-label="Foto precedente">‹</button>
+
+        <div class="carousel-track" id="galTrack">
+          <button class="carousel-slide" type="button" aria-label="Apri foto: La facciata del JohnBar 77"
+                  data-full-webp="/assets/hero-01.webp" data-full-jpg="/assets/hero-01.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/hero-01-800.webp 800w, /assets/hero-01.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/hero-01-800.jpg 800w, /assets/hero-01.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/hero-01.jpg" alt="La facciata del JohnBar 77" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Il bancone e la selezione di distillati"
+                  data-full-webp="/assets/dettaglio-01.webp" data-full-jpg="/assets/dettaglio-01.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/dettaglio-01-800.webp 800w, /assets/dettaglio-01.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/dettaglio-01-800.jpg 800w, /assets/dettaglio-01.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/dettaglio-01.jpg" alt="Il bancone e la selezione di distillati" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Tavolo aperitivo del JohnBar 77"
+                  data-full-webp="/assets/hero-02.webp" data-full-jpg="/assets/hero-02.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/hero-02-800.webp 800w, /assets/hero-02.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/hero-02-800.jpg 800w, /assets/hero-02.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/hero-02.jpg" alt="Tavolo aperitivo del JohnBar 77" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Caffè servito al bancone"
+                  data-full-webp="/assets/dettaglio-02.webp" data-full-jpg="/assets/dettaglio-02.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/dettaglio-02-800.webp 800w, /assets/dettaglio-02.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/dettaglio-02-800.jpg 800w, /assets/dettaglio-02.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/dettaglio-02.jpg" alt="Caffè servito al bancone" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Servizio al banco"
+                  data-full-webp="/assets/hero-03.webp" data-full-jpg="/assets/hero-03.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/hero-03-800.webp 800w, /assets/hero-03.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/hero-03-800.jpg 800w, /assets/hero-03.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/hero-03.jpg" alt="Servizio al banco" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Dettaglio di un caffè speciale"
+                  data-full-webp="/assets/dettaglio-03.webp" data-full-jpg="/assets/dettaglio-03.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/dettaglio-03-800.webp 800w, /assets/dettaglio-03.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/dettaglio-03-800.jpg 800w, /assets/dettaglio-03.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/dettaglio-03.jpg" alt="Dettaglio di un caffè speciale" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+          <button class="carousel-slide" type="button" aria-label="Apri foto: Il menù cartaceo del JohnBar 77"
+                  data-full-webp="/assets/dettaglio-04.webp" data-full-jpg="/assets/dettaglio-04.jpg">
+            <picture>
+              <source type="image/webp" srcset="/assets/dettaglio-04-800.webp 800w, /assets/dettaglio-04.webp 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <source type="image/jpeg" srcset="/assets/dettaglio-04-800.jpg 800w, /assets/dettaglio-04.jpg 1600w" sizes="(max-width: 640px) 78vw, 360px">
+              <img src="/assets/dettaglio-04.jpg" alt="Il menù cartaceo del JohnBar 77" loading="lazy" width="1600" height="1066" />
+            </picture>
+          </button>
+        </div>
+
+        <button class="carousel-arrow carousel-arrow-next" id="galNext" type="button" aria-label="Foto successiva">›</button>
       </div>
+      <div class="carousel-dots" id="galDots" role="tablist" aria-label="Vai alla foto"></div>
     </section>
 
     <!-- ═══════════ HIGHLIGHTS ═══════════ -->
@@ -794,8 +961,8 @@
 
       <div class="map-wrap reveal">
         <svg class="map-svg" viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mapTitle mapDesc">
-          <title id="mapTitle">Mappa illustrata del territorio di Comano Terme</title>
-          <desc id="mapDesc">Illustrazione stilizzata e non in scala delle Giudicarie, con la posizione del JohnBar 77 a Ponte Arche.</desc>
+          <title id="mapTitle">Mappa illustrata dei dintorni del JohnBar 77</title>
+          <desc id="mapDesc">Illustrazione stilizzata e non in scala, disegnata come schizzo sulla pagina: il JohnBar 77 a Ponte Arche al centro, con Trento, Riva del Garda, Tione di Trento e Madonna di Campiglio come riferimenti raggiungibili nelle rispettive direzioni.</desc>
 
           <defs>
             <pattern id="mapDots" width="22" height="22" patternUnits="userSpaceOnUse">
@@ -803,31 +970,30 @@
             </pattern>
           </defs>
 
-          <!-- sagoma del territorio, due toni sovrapposti -->
-          <path d="M40,120 C90,40 220,30 300,70 C380,20 520,40 560,120 C600,210 560,320 480,380 C400,440 260,440 180,390 C90,340 20,240 40,120 Z"
-                fill="var(--navy-light)" opacity="0.55" />
-          <path d="M170,90 C260,50 400,60 460,140 C520,220 500,330 410,390 C330,440 210,420 150,350 C90,280 90,150 170,90 Z"
-                fill="var(--navy-mid)" opacity="0.65" />
-
-          <!-- texture puntinata, coerente con l'hero -->
+          <!-- texture puntinata, coerente con l'hero — nessuno sfondo pieno sotto: si fonde con la pagina -->
           <rect x="0" y="0" width="600" height="460" fill="url(#mapDots)" />
 
-          <!-- strade stilizzate -->
-          <path class="map-road" d="M155,95 C190,140 175,190 210,225 C235,250 260,235 300,235" />
-          <path class="map-road" d="M300,235 C340,235 360,255 345,290 C330,320 280,330 250,365 C220,395 195,390 165,375" />
-          <path class="map-road" d="M300,235 C330,215 345,190 335,150 C328,120 345,100 375,90" />
+          <!-- collegamenti stilizzati, curve libere e irregolari (non strade reali) -->
+          <path class="map-road" d="M300,235 C350,208 378,238 408,206 C438,172 458,154 490,140" />
+          <path class="map-road" d="M300,235 C322,268 272,298 300,328 C328,358 282,386 295,415" />
+          <path class="map-road" d="M300,235 C250,220 222,250 182,234 C152,222 128,234 100,245" />
+          <path class="map-road" d="M300,235 C232,200 192,182 152,160 C120,144 92,120 75,95" />
 
-          <!-- territorio di Comano Terme -->
-          <ellipse cx="300" cy="240" rx="95" ry="72" class="map-territory" />
-          <text x="300" y="150" text-anchor="middle" class="map-label map-label-territory">COMANO TERME</text>
+          <!-- Trento — est / nord-est -->
+          <circle cx="490" cy="140" r="5" class="map-dot-place" />
+          <text x="490" y="124" text-anchor="middle" class="map-label map-label-place">Trento</text>
 
-          <!-- Stenico (minore) -->
-          <circle cx="155" cy="95" r="4" class="map-dot-minor" />
-          <text x="155" y="80" text-anchor="middle" class="map-label map-label-minor">STENICO</text>
+          <!-- Riva del Garda — sud -->
+          <circle cx="295" cy="415" r="5" class="map-dot-place" />
+          <text x="295" y="435" text-anchor="middle" class="map-label map-label-place">Riva del Garda</text>
 
-          <!-- Fiavé (minore) -->
-          <circle cx="165" cy="375" r="4" class="map-dot-minor" />
-          <text x="165" y="395" text-anchor="middle" class="map-label map-label-minor">FIAVÉ</text>
+          <!-- Tione di Trento — ovest -->
+          <circle cx="100" cy="245" r="5" class="map-dot-place" />
+          <text x="100" y="266" text-anchor="middle" class="map-label map-label-place">Tione di Trento</text>
+
+          <!-- Madonna di Campiglio — nord-ovest, oltre Tione -->
+          <circle cx="75" cy="95" r="5" class="map-dot-place" />
+          <text x="75" y="79" text-anchor="middle" class="map-label map-label-place">Madonna di Campiglio</text>
 
           <!-- JohnBar 77 — marker principale a Ponte Arche -->
           <g class="map-marker-main">
@@ -895,6 +1061,114 @@
       });
     }
     initReveal();
+
+    // ── GALLERY: CAROUSEL + LIGHTBOX ──
+    (function () {
+      const track = document.getElementById('galTrack');
+      const dotsWrap = document.getElementById('galDots');
+      const prevBtn = document.getElementById('galPrev');
+      const nextBtn = document.getElementById('galNext');
+      const lightbox = document.getElementById('lightbox');
+      if (!track || !lightbox) return;
+
+      const slides = [...track.querySelectorAll('.carousel-slide')];
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // ── dots, one per slide ──
+      slides.forEach((s, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'carousel-dot';
+        b.setAttribute('aria-label', 'Vai alla foto ' + (i + 1) + ' di ' + slides.length);
+        b.addEventListener('click', () => scrollToSlide(i));
+        dotsWrap.appendChild(b);
+      });
+      const dots = [...dotsWrap.children];
+
+      function scrollToSlide(i) {
+        const s = slides[Math.max(0, Math.min(i, slides.length - 1))];
+        const left = s.offsetLeft - (track.clientWidth - s.clientWidth) / 2;
+        track.scrollTo({ left, behavior: prefersReduced ? 'auto' : 'smooth' });
+      }
+
+      // Which slide is "current" = whichever slide's center is closest to the
+      // track's own visible center — robust even when 2+ slides are fully
+      // visible at once (desktop), unlike a fixed intersection threshold.
+      let activeIndex = 0;
+      function updateActiveFromScroll() {
+        const center = track.scrollLeft + track.clientWidth / 2;
+        let closest = 0, closestDist = Infinity;
+        slides.forEach((s, i) => {
+          const dist = Math.abs((s.offsetLeft + s.clientWidth / 2) - center);
+          if (dist < closestDist) { closestDist = dist; closest = i; }
+        });
+        activeIndex = closest;
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === closest));
+        prevBtn.disabled = closest === 0;
+        nextBtn.disabled = closest === slides.length - 1;
+      }
+
+      prevBtn.addEventListener('click', () => scrollToSlide(activeIndex - 1));
+      nextBtn.addEventListener('click', () => scrollToSlide(activeIndex + 1));
+
+      let scrollTicking = false;
+      track.addEventListener('scroll', () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => { updateActiveFromScroll(); scrollTicking = false; });
+      }, { passive: true });
+      updateActiveFromScroll();
+      window.addEventListener('resize', updateActiveFromScroll);
+
+      // ── lightbox ──
+      const lbClose = document.getElementById('lightboxClose');
+      const lbPrev = document.getElementById('lightboxPrev');
+      const lbNext = document.getElementById('lightboxNext');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbSrcWebp = document.getElementById('lightboxSourceWebp');
+      const lbSrcJpg = document.getElementById('lightboxSourceJpg');
+      const lbFigure = lightbox.querySelector('.lightbox-figure');
+      let current = 0;
+
+      function showSlide(i) {
+        current = (i + slides.length) % slides.length;
+        const slide = slides[current];
+        const img = slide.querySelector('img');
+        lbSrcWebp.srcset = slide.dataset.fullWebp;
+        lbSrcJpg.srcset = slide.dataset.fullJpg;
+        lbImg.src = slide.dataset.fullJpg;
+        lbImg.alt = img.alt;
+      }
+
+      function setOpen(open, index) {
+        if (open) showSlide(index);
+        lightbox.classList.toggle('is-open', open);
+        document.documentElement.style.overflow = open ? 'hidden' : '';
+      }
+
+      slides.forEach((s, i) => s.addEventListener('click', () => setOpen(true, i)));
+      lbClose.addEventListener('click', () => setOpen(false));
+      lbNext.addEventListener('click', () => showSlide(current + 1));
+      lbPrev.addEventListener('click', () => showSlide(current - 1));
+      // click fuori dall'immagine (backdrop) chiude; click sulla foto no
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) setOpen(false); });
+      document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (e.key === 'Escape') setOpen(false);
+        if (e.key === 'ArrowRight') showSlide(current + 1);
+        if (e.key === 'ArrowLeft') showSlide(current - 1);
+      });
+
+      // swipe per scorrere avanti/indietro senza chiudere
+      let touchStartX = null;
+      lbFigure.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      lbFigure.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) { dx < 0 ? showSlide(current + 1) : showSlide(current - 1); }
+        touchStartX = null;
+      }, { passive: true });
+    })();
 
     // ── HERO PARALLAX (leggero, disattivato con prefers-reduced-motion) ──
     (function () {
