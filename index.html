@@ -5,11 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JohnBar 77 — Comano Terme</title>
   <meta name="description" content="JohnBar 77 — bar, caffetteria e cocktail a Comano Terme, Trentino. Qualità & Professionalità." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="canonical" href="https://johnbar77.com/" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#070934" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="JohnBar 77" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://johnbar77.com/" />
+  <meta property="og:title" content="JohnBar 77 — Comano Terme" />
+  <meta property="og:description" content="JohnBar 77 — bar, caffetteria e cocktail a Comano Terme, Trentino. Qualità &amp; Professionalità." />
+  <meta property="og:image" content="https://johnbar77.com/assets/hero-01.jpg" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="1066" />
+  <meta property="og:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="JohnBar 77 — Comano Terme" />
+  <meta name="twitter:description" content="JohnBar 77 — bar, caffetteria e cocktail a Comano Terme, Trentino. Qualità &amp; Professionalità." />
+  <meta name="twitter:image" content="https://johnbar77.com/assets/hero-01.jpg" />
+  <meta name="twitter:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+
+  <!-- Fonts: self-hosted Poppins (see @font-face below) -->
+  <link rel="preload" href="/assets/fonts/poppins-300-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Structured data (schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BarOrPub",
+    "name": "JohnBar 77",
+    "url": "https://johnbar77.com/",
+    "image": "https://johnbar77.com/assets/hero-01.jpg",
+    "logo": "https://johnbar77.com/apple-touch-icon.png",
+    "email": "johnbar77.gjoni@gmail.com",
+    "hasMenu": "https://johnbar77.com/menu/",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Cesare Battisti 3",
+      "postalCode": "38077",
+      "addressLocality": "Comano Terme",
+      "addressRegion": "TN",
+      "addressCountry": "IT"
+    },
+    "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJh7cv52prgkcR2R5dSYrnLQo",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "06:00", "closes": "23:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday", "Saturday"], "opens": "06:00", "closes": "23:59" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "07:00", "closes": "23:00" }
+    ],
+    "contactPoint": [
+      { "@type": "ContactPoint", "name": "Giuliano (Bartender)", "telephone": "+39 392 602 0460", "contactType": "customer service", "availableLanguage": ["Italian"] },
+      { "@type": "ContactPoint", "name": "Giuliano (Sommelier)", "telephone": "+39 379 123 5480", "contactType": "customer service", "availableLanguage": ["Italian"] }
+    ],
+    "sameAs": ["https://www.instagram.com/johnbar.77/"]
+  }
+  </script>
   <noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
   <style>
+    /* ── Poppins self-hosted: only the faces the CSS actually uses (200/300/300i/400/500/700),
+       latin subset — same glyph coverage the Google Fonts CSS served before ── */
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 200; font-display: swap;
+      src: url('/assets/fonts/poppins-200-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: italic; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-italic-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap;
+      src: url('/assets/fonts/poppins-400-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap;
+      src: url('/assets/fonts/poppins-500-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap;
+      src: url('/assets/fonts/poppins-700-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
     :root {
       --navy: #070934;
       --navy-mid: #0d1258;
@@ -574,6 +654,41 @@
     .map-label-sub { font-size: 9px; fill: rgba(255,255,255,0.65); font-style: italic; }
 
     .map-info { text-align: center; }
+
+    .map-contacts {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.25rem 3rem;
+      margin: 0 auto 2rem;
+    }
+    /* author display:flex would otherwise override the [hidden] attribute */
+    .map-contacts[hidden] { display: none; }
+
+    .map-contact dt {
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .map-contact dd {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    .map-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-width: 15rem;
+    }
+    .map-row > :last-child { color: var(--gold-light); white-space: nowrap; }
+    .map-contact a { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
+    .map-contact a:hover,
+    .map-contact a:focus-visible { color: var(--gold); }
     .map-address {
       font-size: 0.85rem;
       line-height: 1.8;
@@ -644,6 +759,10 @@
       color: var(--gold);
       letter-spacing: 0.1em;
     }
+
+    .site-footer a { color: inherit; text-decoration: none; transition: color 0.3s; }
+    .site-footer a:hover,
+    .site-footer a:focus-visible { color: var(--gold-light); }
 
     .footer-credit {
       font-size: 0.55rem;
@@ -953,7 +1072,7 @@
       <p class="reviews-empty reveal" id="reviewsEmpty">Non vediamo l'ora di leggere la tua opinione.</p>
 
       <div class="reviews-cta reveal">
-        <a class="btn btn-ghost" id="reviewsCtaBtn" href="https://www.google.com/search?q=johnbar+77+comano+terme" target="_blank" rel="noopener">Lascia una recensione su Google</a>
+        <a class="btn btn-ghost" id="reviewsCtaBtn" href="https://search.google.com/local/writereview?placeid=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener">Lascia una recensione su Google</a>
       </div>
     </section>
 
@@ -1033,7 +1152,24 @@
 
       <div class="map-info reveal">
         <p class="map-address">Via Cesare Battisti, 3<br />38077 Comano Terme (TN)</p>
-        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Cesare+Battisti+3+Comano+Terme+TN" target="_blank" rel="noopener">Come arrivare</a>
+
+        <!-- Orari (da Google Maps) e contatti diretti. Righe orari: il giorno si traduce
+             via data-it/en/de, l'orario resta invariato. -->
+        <dl class="map-contacts" id="mapContacts">
+          <div class="map-contact">
+            <dt data-it="Orari" data-en="Opening hours" data-de="Öffnungszeiten">Orari</dt>
+            <dd class="map-row"><span data-it="Lun – Gio" data-en="Mon – Thu" data-de="Mo – Do">Lun – Gio</span><span>06:00 – 23:00</span></dd>
+            <dd class="map-row"><span data-it="Ven – Sab" data-en="Fri – Sat" data-de="Fr – Sa">Ven – Sab</span><span>06:00 – 24:00</span></dd>
+            <dd class="map-row"><span data-it="Domenica" data-en="Sunday" data-de="Sonntag">Domenica</span><span>07:00 – 23:00</span></dd>
+          </div>
+          <div class="map-contact">
+            <dt data-it="Telefono" data-en="Phone" data-de="Telefon">Telefono</dt>
+            <dd class="map-row"><span>Giuliano · Bartender</span><a href="tel:+393926020460">+39 392 602 0460</a></dd>
+            <dd class="map-row"><span>Giuliano · Sommelier</span><a href="tel:+393791235480">+39 379 123 5480</a></dd>
+          </div>
+        </dl>
+
+        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Cesare+Battisti+3+Comano+Terme+TN&amp;destination_place_id=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener">Come arrivare</a>
       </div>
     </section>
 
@@ -1049,10 +1185,10 @@
     </div>
     <div class="footer-info">
       Via Cesare Battisti, 3 — 38077 Comano Terme TN<br>
-      johnbar77@gjoni@gmail.com
+      <a href="mailto:johnbar77.gjoni@gmail.com">johnbar77.gjoni@gmail.com</a>
     </div>
-    <div class="footer-social">@johnbar.77</div>
-    <div class="footer-credit">johnbar77.it</div>
+    <div class="footer-social"><a href="https://www.instagram.com/johnbar.77/" target="_blank" rel="noopener">@johnbar.77</a></div>
+    <div class="footer-credit">johnbar77.com</div>
   </footer>
 
   <script>
@@ -1210,7 +1346,7 @@
     (function () {
       // Compila queste due costanti quando la scheda Google Business è pronta.
       const GOOGLE_API_KEY = "";
-      const GOOGLE_PLACE_ID = "";
+      const GOOGLE_PLACE_ID = "ChIJh7cv52prgkcR2R5dSYrnLQo"; // JohnBar77 su Google Maps — also drives the "Lascia una recensione" button
 
       const CACHE_KEY = 'jb77_google_reviews_v1';
       const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h

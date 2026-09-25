@@ -4,10 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JohnBar 77 — Menu</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <meta name="description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini, gelato e catering." />
+  <link rel="canonical" href="https://johnbar77.com/menu/" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#070934" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="JohnBar 77" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://johnbar77.com/menu/" />
+  <meta property="og:title" content="Menù — JohnBar 77, Comano Terme" />
+  <meta property="og:description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini, gelato e catering." />
+  <meta property="og:image" content="https://johnbar77.com/assets/hero-01.jpg" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="1066" />
+  <meta property="og:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Menù — JohnBar 77, Comano Terme" />
+  <meta name="twitter:description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini, gelato e catering." />
+  <meta name="twitter:image" content="https://johnbar77.com/assets/hero-01.jpg" />
+  <meta name="twitter:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+
+  <!-- Fonts: self-hosted Poppins (see @font-face below) -->
+  <link rel="preload" href="/assets/fonts/poppins-300-latin.woff2" as="font" type="font/woff2" crossorigin />
   <style>
+    /* ── Poppins self-hosted: only the faces the CSS actually uses (200/300/300i/400/500/700),
+       latin subset — same glyph coverage the Google Fonts CSS served before ── */
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 200; font-display: swap;
+      src: url('/assets/fonts/poppins-200-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: italic; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-italic-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap;
+      src: url('/assets/fonts/poppins-400-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap;
+      src: url('/assets/fonts/poppins-500-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap;
+      src: url('/assets/fonts/poppins-700-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
     :root {
       --navy: #070934;
       --navy-mid: #0d1258;
@@ -356,6 +404,7 @@
     .menu-section {
       display: none;
       animation: sectionIn 0.45s ease both;
+      scroll-margin-top: var(--menu-nav-h, 56px); /* native #tab-… jumps land below the sticky navbar */
     }
 
     .menu-section.visible {
@@ -705,6 +754,10 @@
       color: var(--gold);
       letter-spacing: 0.1em;
     }
+
+    .site-footer a { color: inherit; text-decoration: none; transition: color 0.3s; }
+    .site-footer a:hover,
+    .site-footer a:focus-visible { color: var(--gold-light); }
 
     .footer-credit {
       font-size: 0.55rem;
@@ -1523,10 +1576,10 @@
     </div>
     <div class="footer-info">
       Via Cesare Battisti, 3 — 38077 Comano Terme TN<br>
-      johnbar77@gjoni@gmail.com
+      <a href="mailto:johnbar77.gjoni@gmail.com">johnbar77.gjoni@gmail.com</a>
     </div>
-    <div class="footer-social">@johnbar.77</div>
-    <div class="footer-credit">johnbar77.it</div>
+    <div class="footer-social"><a href="https://www.instagram.com/johnbar.77/" target="_blank" rel="noopener">@johnbar.77</a></div>
+    <div class="footer-credit">johnbar77.com</div>
   </footer>
 
   <script>
@@ -1619,13 +1672,18 @@
     // Explicit offset (document position of the section minus the navbar height) —
     // NOT scrollIntoView, which behaves inconsistently with sticky elements.
     // Identical on mobile and desktop, whatever the previous scroll position was.
-    function scrollToSectionTop(section) {
+    // `instant` = jump without animation. 'instant' (not 'auto') is needed because
+    // html has scroll-behavior:smooth, which 'auto' would inherit.
+    function scrollToSectionTop(section, instant) {
       if (!section) return;
       const navH = menuNav.getBoundingClientRect().height;
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      // Layout position via offsetTop, not getBoundingClientRect(): the section's
+      // entry animation (translateY) would otherwise skew the measurement.
+      let sectionTop = 0;
+      for (let el = section; el; el = el.offsetParent) sectionTop += el.offsetTop;
       const target = Math.max(0, Math.round(sectionTop - navH));
       try {
-        window.scrollTo({ top: target, behavior: prefersReduced ? 'auto' : 'smooth' });
+        window.scrollTo({ top: target, behavior: (instant || prefersReduced) ? 'instant' : 'smooth' });
       } catch (e) {
         window.scrollTo(0, target); // older browsers without options support
       }
@@ -1676,13 +1734,42 @@
       btn.addEventListener('click', () => activateTab(btn.dataset.tab));
     });
 
-    // Deep-linking: open the tab named in the URL hash (e.g. /menu/#tab-catering)
-    function openTabFromHash(scroll) {
-      const m = /^#tab-([a-z0-9]+)$/i.exec(location.hash || '');
-      if (m) activateTab(m[1], { scroll: scroll });
+    // Sections get scroll-margin-top = sticky navbar height, so the browser's own
+    // fragment jump (#tab-…) lands below the navbar too, same as our computed scroll.
+    function syncNavHeightVar() {
+      document.documentElement.style.setProperty('--menu-nav-h', menuNav.getBoundingClientRect().height + 'px');
     }
-    openTabFromHash(true);
-    window.addEventListener('hashchange', () => openTabFromHash(true));
+    syncNavHeightVar();
+    window.addEventListener('resize', syncNavHeightVar);
+
+    // Deep-linking: /menu/#tab-catering, /menu/#tab-gelato… open that tab on page load
+    // and scroll to the start of its section, just below the navbar.
+    function tabFromHash() {
+      const m = /^#tab-([a-z0-9]+)$/i.exec(location.hash || '');
+      return m ? m[1] : null;
+    }
+
+    const initialTab = tabFromHash();
+    if (initialTab && activateTab(initialTab)) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      // Web fonts and images can still shift the layout after this first scroll:
+      // re-align (without animation) once they're in — unless the visitor already scrolled.
+      let userScrolled = false;
+      ['wheel', 'touchmove', 'keydown'].forEach(ev =>
+        window.addEventListener(ev, () => { userScrolled = true; }, { once: true, passive: true }));
+      const realign = () => {
+        if (userScrolled || tabFromHash() !== initialTab) return;
+        syncNavHeightVar();
+        scrollToSectionTop(document.getElementById('tab-' + initialTab), true);
+      };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(realign);
+      window.addEventListener('load', realign);
+    }
+
+    window.addEventListener('hashchange', () => {
+      const t = tabFromHash();
+      if (t) activateTab(t);
+    });
 
     // ── MAIN NAV (hamburger overlay) ──
     (function () {
