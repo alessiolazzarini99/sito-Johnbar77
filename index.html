@@ -546,63 +546,100 @@
       margin-top: 1.2rem;
     }
 
-    /* ── RECENSIONI ── */
-    .reviews-summary {
+    /* ── RECENSIONI — carosello generato da assets/recensioni.js ──
+       Stesso schema della gallery: track orizzontale con scroll-snap, frecce
+       .carousel-arrow (nascoste sotto 640px, lì si usa lo swipe) e .carousel-dot.
+       3 card affiancate su desktop, 2 su tablet, 1 su mobile. */
+    .rev-carousel { display: flex; align-items: center; gap: 0.75rem; }
+
+    .rev-track {
+      position: relative; /* offsetParent for the cards → offsetLeft matches scrollLeft */
       display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 0.7rem;
-      margin-bottom: 2.25rem;
-      flex-wrap: wrap;
-    }
-    .reviews-stars { color: var(--gold); letter-spacing: 0.12em; font-size: 0.95rem; }
-    .reviews-count { font-size: 0.7rem; letter-spacing: 0.05em; color: var(--text-muted); }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1rem;
-      margin-bottom: 2.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 0.2rem;
     }
+    .rev-track::-webkit-scrollbar { display: none; }
 
-    .review-card {
+    .rev-card {
+      flex: 0 0 calc((100% - 2rem) / 3);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 1.6rem 1.5rem 1.4rem;
       border: 1px solid var(--border);
-      padding: 1.5rem 1.4rem;
       background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+      transition: border-color 0.3s;
     }
+    .rev-card:hover { border-color: rgba(201,169,110,0.35); }
+    @media (max-width: 900px) { .rev-card { flex-basis: calc((100% - 1rem) / 2); } }
+    @media (max-width: 640px) { .rev-card { flex-basis: 100%; } }
 
-    .review-stars {
-      color: var(--gold);
-      font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      margin-bottom: 0.85rem;
-    }
+    .rev-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 0.18em; }
+    .rev-stars .off { color: rgba(201,169,110,0.25); }
 
-    .review-text {
-      font-size: 0.85rem;
+    .rev-text {
+      margin: 1rem 0 0.4rem;
+      font-size: 0.88rem;
       line-height: 1.75;
-      color: var(--text-muted);
-      margin-bottom: 1.1rem;
+      color: rgba(255,255,255,0.78);
+      white-space: pre-line; /* keeps the reviewers' own line breaks */
+    }
+    .rev-text::before { content: '\201C'; color: var(--gold); }
+    .rev-text::after  { content: '\201D'; color: var(--gold); }
+    .rev-text.is-clamped {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 6;
+      line-clamp: 6;
+      overflow: hidden;
     }
 
-    .review-meta {
+    .rev-more {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      padding: 0.2rem 0;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .rev-more:hover, .rev-more:focus-visible { color: var(--gold-light); }
+    .rev-more[hidden] { display: none; }
+
+    .rev-meta {
+      margin-top: auto;
+      padding-top: 1.1rem;
       display: flex;
       justify-content: space-between;
+      align-items: baseline;
       gap: 0.75rem;
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
+      flex-wrap: wrap;
+    }
+    .rev-name { font-weight: 500; font-size: 0.85rem; color: var(--white); }
+    .rev-source {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gold-light);
+      opacity: 0.8;
     }
 
-    .reviews-empty {
-      text-align: center;
-      font-family: 'Poppins', serif;
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
+    #revDots { margin-bottom: 2.5rem; }
+    /* author display:flex on these would otherwise beat the [hidden] attribute */
+    .rev-carousel[hidden], .carousel-arrow[hidden], .carousel-dots[hidden] { display: none; }
 
     .reviews-cta { text-align: center; }
 
@@ -771,6 +808,36 @@
       margin-top: 1rem;
     }
 
+    /* ── LANG SWITCHER (IT/EN/DE) — fixed top-right, mirrors the hamburger ── */
+    .lang-switcher {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 320;
+      display: flex;
+      align-items: stretch;
+      height: 44px;
+      background: rgba(7, 9, 52, 0.5);
+      border: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      padding: 0 0.65rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .lang-btn.active,
+    .lang-btn:hover,
+    .lang-btn:focus-visible { color: var(--gold); }
+
     /* ── MAIN NAV (hamburger + full-screen overlay) ── */
     .mainnav-toggle {
       position: fixed;
@@ -882,12 +949,18 @@
           aria-label="Apri il menu di navigazione" aria-expanded="false" aria-controls="mainnavPanel">
     <span class="mainnav-bars" aria-hidden="true"><span></span><span></span><span></span></span>
   </button>
+  <div class="lang-switcher" role="group" aria-label="Lingua / Language / Sprache">
+    <button class="lang-btn active" type="button" data-lang="it" aria-pressed="true">IT</button>
+    <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+    <button class="lang-btn" type="button" data-lang="de" aria-pressed="false">DE</button>
+  </div>
+
   <div class="mainnav-overlay" id="mainnavPanel">
     <nav class="mainnav-links" aria-label="Navigazione principale">
-      <a href="/" class="is-current" aria-current="page">Home</a>
-      <a href="/menu/">Menù</a>
+      <a href="/" class="is-current" aria-current="page" data-it="Home" data-en="Home" data-de="Startseite">Home</a>
+      <a href="/menu/" data-it="Menù" data-en="Menu" data-de="Menü">Menù</a>
       <!-- Catering: diventerà una pagina dedicata; per ora rimanda alla tab del menù -->
-      <a href="/menu/#tab-catering">Catering</a>
+      <a href="/menu/#tab-catering" data-it="Catering" data-en="Catering" data-de="Catering">Catering</a>
     </nav>
   </div>
 
@@ -925,11 +998,11 @@
         JOHNBAR
         <span>77</span>
       </h1>
-      <p class="hero-sub">Qualità &amp; Professionalità</p>
+      <p class="hero-sub" data-it="Qualità &amp; Professionalità" data-en="Quality &amp; Professionalism" data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</p>
 
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/menu/">Il Menù</a>
-        <a class="btn btn-ghost" href="/menu/#tab-catering">Eventi &amp; Catering</a>
+        <a class="btn btn-primary" href="/menu/" data-it="Il Menù" data-en="The Menu" data-de="Das Menü">Il Menù</a>
+        <a class="btn btn-ghost" href="/menu/#tab-catering" data-it="Eventi &amp; Catering" data-en="Events &amp; Catering" data-de="Events &amp; Catering">Eventi &amp; Catering</a>
       </div>
     </div>
   </header>
@@ -939,24 +1012,22 @@
     <!-- ═══════════ CHI SIAMO ═══════════ -->
     <section class="section" id="chi-siamo">
       <div class="section-head reveal">
-        <span class="section-kicker">Chi siamo</span>
-        <h2 class="section-title">Il bar di Comano Terme</h2>
+        <span class="section-kicker" data-it="Chi siamo" data-en="About us" data-de="Über uns">Chi siamo</span>
+        <h2 class="section-title" data-it="Il bar di Comano Terme" data-en="The bar of Comano Terme" data-de="Die Bar von Comano Terme">Il bar di Comano Terme</h2>
       </div>
-      <p class="about-text reveal">
-        Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due
-        giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come
-        bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità.
-        Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al
-        gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro
-        motto: sono il modo in cui lavoriamo ogni giorno.
+      <p class="about-text reveal"
+         data-it="Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno."
+         data-en="JohnBar 77 opened in 2025 in the heart of Comano Terme, in Trentino. Behind the counter, the two Giulianos bring years of experience from the hospitality world — one as a bartender, the other as a sommelier — with ongoing training and a constant pursuit of quality. Here you will find a bit of everything — from coffee to our house cocktails, from carefully selected wines to artisan gelato — always chosen with care. Quality and professionalism are not just our motto: they are how we work every day."
+         data-de="Das JohnBar 77 wurde 2025 im Herzen von Comano Terme im Trentino eröffnet. Hinter der Theke bringen die beiden Giulianos jahrelange Erfahrung aus der Gastronomie mit — der eine als Barkeeper, der andere als Sommelier —, dazu ständige Weiterbildung und ein beständiges Streben nach Qualität. Bei uns finden Sie wirklich alles — vom Kaffee bis zum Cocktail des Hauses, vom ausgewählten Wein bis zum handwerklich hergestellten Eis —, stets mit Sorgfalt ausgewählt. Qualität und Professionalität sind nicht nur unser Motto: So arbeiten wir jeden Tag.">
+        Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno.
       </p>
     </section>
 
     <!-- ═══════════ GALLERY ═══════════ -->
     <section class="section" id="gallery">
       <div class="section-head reveal">
-        <span class="section-kicker">Gallery</span>
-        <h2 class="section-title">Uno sguardo al locale</h2>
+        <span class="section-kicker" data-it="Gallery" data-en="Gallery" data-de="Galerie">Gallery</span>
+        <h2 class="section-title" data-it="Uno sguardo al locale" data-en="A look inside" data-de="Ein Blick ins Lokal">Uno sguardo al locale</h2>
       </div>
       <div class="carousel reveal">
         <button class="carousel-arrow carousel-arrow-prev" id="galPrev" type="button" aria-label="Foto precedente">‹</button>
@@ -1028,59 +1099,57 @@
     <!-- ═══════════ HIGHLIGHTS ═══════════ -->
     <section class="section" id="highlights">
       <div class="section-head reveal">
-        <span class="section-kicker">Il menù</span>
-        <h2 class="section-title">Cosa trovi da noi</h2>
+        <span class="section-kicker" data-it="Il menù" data-en="The menu" data-de="Das Menü">Il menù</span>
+        <h2 class="section-title" data-it="Cosa trovi da noi" data-en="What you&#39;ll find" data-de="Was Sie bei uns finden">Cosa trovi da noi</h2>
       </div>
       <div class="highlights">
         <a class="hl-card reveal" href="/menu/#tab-caffe">
-          <span class="hl-card-name">Caffetteria</span>
-          <span class="hl-card-go">Scopri →</span>
+          <span class="hl-card-name" data-it="Caffetteria" data-en="Coffee bar" data-de="Kaffeebar">Caffetteria</span>
+          <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
         <a class="hl-card reveal" href="/menu/#tab-aperitivi">
-          <span class="hl-card-name">Aperitivi</span>
-          <span class="hl-card-go">Scopri →</span>
+          <span class="hl-card-name" data-it="Aperitivi" data-en="Aperitifs" data-de="Aperitifs">Aperitivi</span>
+          <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
         <a class="hl-card reveal" href="/menu/#tab-inostri">
-          <span class="hl-card-name">Cocktail della casa</span>
-          <span class="hl-card-go">Scopri →</span>
+          <span class="hl-card-name" data-it="Cocktail della casa" data-en="House cocktails" data-de="Hauscocktails">Cocktail della casa</span>
+          <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
         <a class="hl-card reveal" href="/menu/#tab-gelato">
-          <span class="hl-card-name">Gelato</span>
-          <span class="hl-card-go">Scopri →</span>
+          <span class="hl-card-name" data-it="Gelato" data-en="Ice cream" data-de="Eis">Gelato</span>
+          <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
         <a class="hl-card reveal" href="/menu/#tab-catering">
-          <span class="hl-card-name">Eventi privati</span>
-          <span class="hl-card-go">Scopri →</span>
+          <span class="hl-card-name" data-it="Eventi privati" data-en="Private events" data-de="Private Feiern">Eventi privati</span>
+          <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
       </div>
     </section>
 
-    <!-- ═══════════ RECENSIONI (Google Places API New) ═══════════ -->
+    <!-- ═══════════ RECENSIONI — carosello, dati in assets/recensioni.js ═══════════ -->
     <section class="section" id="recensioni">
       <div class="section-head reveal">
-        <span class="section-kicker">Recensioni</span>
-        <h2 class="section-title">Cosa dicono di noi</h2>
+        <span class="section-kicker" data-it="Recensioni" data-en="Reviews" data-de="Bewertungen">Recensioni</span>
+        <h2 class="section-title" data-it="Cosa dicono di noi" data-en="What our guests say" data-de="Was unsere Gäste sagen">Cosa dicono di noi</h2>
       </div>
 
-      <div class="reviews-summary" id="reviewsSummary" hidden>
-        <span class="reviews-stars" id="reviewsStars" aria-hidden="true"></span>
-        <span class="reviews-count" id="reviewsCount"></span>
+      <div class="rev-carousel reveal" id="revCarousel" role="region" aria-roledescription="carousel" aria-label="Recensioni dei clienti">
+        <button class="carousel-arrow" id="revPrev" type="button" aria-label="Recensione precedente">‹</button>
+        <div class="rev-track" id="revTrack"></div>
+        <button class="carousel-arrow" id="revNext" type="button" aria-label="Recensione successiva">›</button>
       </div>
-
-      <div class="reviews-grid" id="reviewsGrid" hidden></div>
-
-      <p class="reviews-empty reveal" id="reviewsEmpty">Non vediamo l'ora di leggere la tua opinione.</p>
+      <div class="carousel-dots" id="revDots" aria-label="Vai alla recensione"></div>
 
       <div class="reviews-cta reveal">
-        <a class="btn btn-ghost" id="reviewsCtaBtn" href="https://search.google.com/local/writereview?placeid=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener">Lascia una recensione su Google</a>
+        <a class="btn btn-ghost" id="reviewsCtaBtn" href="https://search.google.com/local/writereview?placeid=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener" data-it="Lascia una recensione su Google" data-en="Leave a review on Google" data-de="Bewertung auf Google schreiben">Lascia una recensione su Google</a>
       </div>
     </section>
 
     <!-- ═══════════ DOVE SIAMO — mappa illustrata (decorativa, non funzionale) ═══════════ -->
     <section class="section" id="dove-siamo">
       <div class="section-head reveal">
-        <span class="section-kicker">Dove siamo</span>
-        <h2 class="section-title">Nel cuore delle Giudicarie</h2>
+        <span class="section-kicker" data-it="Dove siamo" data-en="Where we are" data-de="Wo wir sind">Dove siamo</span>
+        <h2 class="section-title" data-it="Nel cuore delle Giudicarie" data-en="In the heart of the Giudicarie" data-de="Im Herzen der Judikarien">Nel cuore delle Giudicarie</h2>
       </div>
 
       <div class="map-wrap reveal">
@@ -1169,7 +1238,7 @@
           </div>
         </dl>
 
-        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Cesare+Battisti+3+Comano+Terme+TN&amp;destination_place_id=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener">Come arrivare</a>
+        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Cesare+Battisti+3+Comano+Terme+TN&amp;destination_place_id=ChIJh7cv52prgkcR2R5dSYrnLQo" target="_blank" rel="noopener" data-it="Come arrivare" data-en="Get directions" data-de="Anfahrt">Come arrivare</a>
       </div>
     </section>
 
@@ -1191,7 +1260,44 @@
     <div class="footer-credit">johnbar77.com</div>
   </footer>
 
+  <script src="/assets/recensioni.js"></script>
   <script>
+    // ── LINGUA (IT/EN/DE) — stesso sistema data-it/data-en/data-de del menù ──
+    // La scelta è condivisa con /menu tramite localStorage ('jb77-lang').
+    const SUPPORTED_LANGS = ['it', 'en', 'de'];
+    let currentLang = 'it';
+
+    function translateTree(root, lang) {
+      const els = [...(root || document).querySelectorAll('[data-it]')];
+      if (root && root.matches && root.matches('[data-it]')) els.push(root);
+      els.forEach(el => {
+        const v = el.dataset[lang || currentLang];
+        if (v !== undefined) el.textContent = v;
+      });
+    }
+
+    function applyLang(lang) {
+      if (!SUPPORTED_LANGS.includes(lang)) lang = 'it';
+      currentLang = lang;
+      translateTree(document, lang);
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        const on = b.dataset.lang === lang;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      document.documentElement.lang = lang;
+      try { localStorage.setItem('jb77-lang', lang); } catch (e) { /* storage non disponibile */ }
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn =>
+      btn.addEventListener('click', () => { if (btn.dataset.lang !== currentLang) applyLang(btn.dataset.lang); }));
+
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('jb77-lang'); } catch (e) {}
+      if (saved && saved !== 'it') applyLang(saved);
+    })();
+
     // ── SCROLL-REVEAL (coerente con /menu) ──
     // Ogni elemento .reveal riceve un delay progressivo basato sulla sua posizione
     // fra i fratelli .reveal dello stesso genitore: così ogni gruppo (le card
@@ -1326,6 +1432,170 @@
       }, { passive: true });
     })();
 
+    // ── RECENSIONI: carosello generato da RECENSIONI (assets/recensioni.js) ──
+    (function () {
+      const data = (typeof RECENSIONI !== 'undefined' && Array.isArray(RECENSIONI)) ? RECENSIONI : [];
+      const section = document.getElementById('recensioni');
+      const carousel = document.getElementById('revCarousel');
+      const track = document.getElementById('revTrack');
+      const dotsWrap = document.getElementById('revDots');
+      const prevBtn = document.getElementById('revPrev');
+      const nextBtn = document.getElementById('revNext');
+      if (!track) return;
+      if (!data.length) { carousel.hidden = true; dotsWrap.hidden = true; return; }
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const AUTOPLAY_MS = 6000;
+      const LABELS = {
+        more: { it: 'Leggi tutto', en: 'Read more',  de: 'Weiterlesen' },
+        less: { it: 'Mostra meno', en: 'Show less',  de: 'Weniger anzeigen' }
+      };
+      const setLabel = (btn, key) => {
+        ['it', 'en', 'de'].forEach(l => { btn.dataset[l] = LABELS[key][l]; });
+        btn.textContent = LABELS[key][currentLang] || LABELS[key].it;
+      };
+
+      // ── cards (built with textContent: nothing from the data file is parsed as HTML) ──
+      data.forEach((r, i) => {
+        const stars = Math.max(0, Math.min(5, Math.round(Number(r.stelle) || 0)));
+        const card = document.createElement('figure');
+        card.className = 'rev-card';
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-roledescription', 'slide');
+        card.setAttribute('aria-label', (i + 1) + ' / ' + data.length);
+
+        const st = document.createElement('div');
+        st.className = 'rev-stars';
+        st.setAttribute('role', 'img');
+        st.setAttribute('aria-label', stars + ' / 5');
+        st.innerHTML = '★'.repeat(stars) + '<span class="off">' + '★'.repeat(5 - stars) + '</span>';
+
+        const text = document.createElement('blockquote');
+        text.className = 'rev-text is-clamped';
+        text.textContent = String(r.testo || '');
+
+        const more = document.createElement('button');
+        more.type = 'button';
+        more.className = 'rev-more';
+        more.hidden = true;
+        more.setAttribute('aria-expanded', 'false');
+        setLabel(more, 'more');
+        more.addEventListener('click', () => {
+          const open = text.classList.toggle('is-clamped') === false;
+          more.setAttribute('aria-expanded', open ? 'true' : 'false');
+          setLabel(more, open ? 'less' : 'more');
+          card.classList.toggle('is-open', open);
+          schedule();
+        });
+
+        const meta = document.createElement('figcaption');
+        meta.className = 'rev-meta';
+        const name = document.createElement('span');
+        name.className = 'rev-name';
+        name.textContent = String(r.nome || '');
+        const src = document.createElement('span');
+        src.className = 'rev-source';
+        src.dataset.it = 'Recensione Google';
+        src.dataset.en = 'Google review';
+        src.dataset.de = 'Google-Bewertung';
+        src.textContent = src.dataset[currentLang];
+        meta.append(name, src);
+
+        card.append(st, text, more, meta);
+        track.appendChild(card);
+      });
+      const cards = [...track.children];
+
+      // "Leggi tutto" only where the text really exceeds ~6 lines
+      function measureClamps() {
+        cards.forEach(card => {
+          const text = card.querySelector('.rev-text');
+          const more = card.querySelector('.rev-more');
+          if (!text.classList.contains('is-clamped')) return; // expanded: leave as is
+          more.hidden = !(text.scrollHeight > text.clientHeight + 1);
+        });
+      }
+
+      // ── pages: one per reachable "first visible card" position ──
+      let pages = [];
+      let active = 0;
+      function computePages() {
+        const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        const max = track.scrollWidth - track.clientWidth;
+        const set = [];
+        cards.forEach(c => {
+          const left = Math.min(c.offsetLeft - pad, max);
+          if (!set.length || left - set[set.length - 1] > 2) set.push(Math.max(0, left));
+        });
+        pages = set.length ? set : [0];
+      }
+      function buildDots() {
+        dotsWrap.innerHTML = '';
+        pages.forEach((_, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'carousel-dot';
+          b.setAttribute('aria-label', (i + 1) + ' / ' + pages.length);
+          b.addEventListener('click', () => { goTo(i); schedule(); });
+          dotsWrap.appendChild(b);
+        });
+        dotsWrap.hidden = pages.length < 2;
+        prevBtn.hidden = nextBtn.hidden = pages.length < 2;
+      }
+      function updateActive() {
+        let best = 0, dist = Infinity;
+        pages.forEach((left, i) => { const d = Math.abs(left - track.scrollLeft); if (d < dist) { dist = d; best = i; } });
+        active = best;
+        [...dotsWrap.children].forEach((d, i) => d.classList.toggle('is-active', i === best));
+      }
+      function goTo(i) {
+        if (!pages.length) return;
+        const n = (i % pages.length + pages.length) % pages.length; // loop
+        track.scrollTo({ left: pages[n], behavior: reduced ? 'instant' : 'smooth' });
+      }
+
+      prevBtn.addEventListener('click', () => { goTo(active - 1); schedule(); });
+      nextBtn.addEventListener('click', () => { goTo(active + 1); schedule(); });
+
+      let ticking = false;
+      track.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { updateActive(); ticking = false; });
+      }, { passive: true });
+
+      function layout() { measureClamps(); computePages(); buildDots(); updateActive(); }
+      layout();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+      let resizeTimer;
+      window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(layout, 150); });
+
+      // ── autoplay: ~1 card / 6s, loop; paused on hover, touch, focus, open card,
+      //    off-screen or hidden tab; disabled with prefers-reduced-motion ──
+      let timer = null, inView = false, hovering = false, focused = false, touchHold = false, touchTimer = null;
+      const canPlay = () => !reduced && pages.length > 1 && inView && !hovering && !focused && !touchHold &&
+        document.visibilityState === 'visible' && !track.querySelector('.rev-card.is-open');
+      function schedule() {
+        clearTimeout(timer);
+        if (canPlay()) timer = setTimeout(() => { goTo(active + 1); schedule(); }, AUTOPLAY_MS);
+      }
+
+      carousel.addEventListener('mouseenter', () => { hovering = true; schedule(); });
+      carousel.addEventListener('mouseleave', () => { hovering = false; schedule(); });
+      carousel.addEventListener('focusin', () => { focused = true; schedule(); });
+      carousel.addEventListener('focusout', (e) => { if (!carousel.contains(e.relatedTarget)) { focused = false; schedule(); } });
+      track.addEventListener('touchstart', () => { touchHold = true; clearTimeout(touchTimer); schedule(); }, { passive: true });
+      track.addEventListener('touchend', () => {
+        clearTimeout(touchTimer);
+        touchTimer = setTimeout(() => { touchHold = false; schedule(); }, 8000); // riparte dopo 8s senza tocchi
+      }, { passive: true });
+      document.addEventListener('visibilitychange', schedule);
+      new IntersectionObserver((entries) => {
+        inView = entries[0].isIntersecting;
+        schedule();
+      }, { threshold: 0.25 }).observe(section);
+    })();
+
     // ── HERO PARALLAX (leggero, disattivato con prefers-reduced-motion) ──
     (function () {
       const hero = document.querySelector('.hero');
@@ -1340,100 +1610,6 @@
       window.addEventListener('scroll', () => {
         if (!ticking) { requestAnimationFrame(update); ticking = true; }
       }, { passive: true });
-    })();
-
-    // ── RECENSIONI GOOGLE (Places API New) ──
-    (function () {
-      // Compila queste due costanti quando la scheda Google Business è pronta.
-      const GOOGLE_API_KEY = "";
-      const GOOGLE_PLACE_ID = "ChIJh7cv52prgkcR2R5dSYrnLQo"; // JohnBar77 su Google Maps — also drives the "Lascia una recensione" button
-
-      const CACHE_KEY = 'jb77_google_reviews_v1';
-      const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
-
-      const grid = document.getElementById('reviewsGrid');
-      const summary = document.getElementById('reviewsSummary');
-      const starsEl = document.getElementById('reviewsStars');
-      const countEl = document.getElementById('reviewsCount');
-      const emptyEl = document.getElementById('reviewsEmpty');
-      const ctaBtn = document.getElementById('reviewsCtaBtn');
-      if (!grid) return;
-
-      if (ctaBtn && GOOGLE_PLACE_ID) {
-        ctaBtn.href = `https://search.google.com/local/writereview?placeid=${encodeURIComponent(GOOGLE_PLACE_ID)}`;
-      }
-
-      function escapeHtml(s) {
-        return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      }
-
-      function starString(rating) {
-        const r = Math.max(0, Math.min(5, Math.round(rating || 0)));
-        return '★★★★★'.slice(0, r) + '☆☆☆☆☆'.slice(0, 5 - r);
-      }
-
-      function showEmptyFallback() {
-        grid.hidden = true;
-        summary.hidden = true;
-        emptyEl.hidden = false;
-      }
-
-      function renderReviews(data) {
-        if (!data || !Array.isArray(data.reviews) || data.reviews.length === 0) return false;
-
-        grid.innerHTML = data.reviews.slice(0, 5).map(r => {
-          const name = (r.authorAttribution && r.authorAttribution.displayName) || 'Cliente Google';
-          const text = (r.text && r.text.text) || (r.originalText && r.originalText.text) || '';
-          const when = r.relativePublishTimeDescription || '';
-          return `<article class="review-card">
-            <div class="review-stars" aria-hidden="true">${starString(r.rating)}</div>
-            <p class="review-text">${escapeHtml(text)}</p>
-            <div class="review-meta"><span class="review-author">${escapeHtml(name)}</span><span class="review-when">${escapeHtml(when)}</span></div>
-          </article>`;
-        }).join('');
-        grid.hidden = false;
-
-        if (typeof data.rating === 'number' && typeof data.userRatingCount === 'number') {
-          starsEl.textContent = `${starString(data.rating)} ${data.rating.toFixed(1)}`;
-          countEl.textContent = `(${data.userRatingCount} recensioni su Google)`;
-          summary.hidden = false;
-        }
-
-        emptyEl.hidden = true;
-        initReveal(grid); // stagger anche per le card appena inserite
-        return true;
-      }
-
-      // Senza chiavi configurate: nessuna chiamata, nessun errore — solo il bottone.
-      if (!GOOGLE_API_KEY || !GOOGLE_PLACE_ID) {
-        showEmptyFallback();
-        return;
-      }
-
-      // Cache in localStorage — refresh solo dopo 24h.
-      let cached = null;
-      try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch (e) { cached = null; }
-
-      if (cached && cached.ts && (Date.now() - cached.ts) < CACHE_TTL_MS && renderReviews(cached.data)) {
-        return; // cache ancora valida, nessuna chiamata di rete
-      }
-
-      fetch(`https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}`, {
-        headers: {
-          'X-Goog-Api-Key': GOOGLE_API_KEY,
-          'X-Goog-FieldMask': 'reviews,rating,userRatingCount'
-        }
-      })
-        .then(res => { if (!res.ok) throw new Error('Places API ' + res.status); return res.json(); })
-        .then(data => {
-          if (!renderReviews(data)) throw new Error('nessuna recensione nella risposta');
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch (e) { /* storage pieno/non disponibile: ignora */ }
-        })
-        .catch(() => {
-          // rete/errore: prova comunque con una cache anche scaduta, altrimenti nascondi senza errori
-          if (cached && renderReviews(cached.data)) return;
-          showEmptyFallback();
-        });
     })();
 
     // ── MAIN NAV (hamburger overlay) ──
