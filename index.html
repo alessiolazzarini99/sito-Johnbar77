@@ -129,27 +129,49 @@
       padding: 2rem;
       overflow: hidden;
       background-color: var(--navy);
+      isolation: isolate; /* own stacking context for the photo / shade / dots layers */
+    }
+
+    /* Hero photo on its own layer: `scale` drives the Ken Burns zoom (CSS animation),
+       `translate` the scroll parallax (JS) — independent properties, so they combine.
+       Generous bleed above so the parallax shift never uncovers an edge. */
+    .hero-bg {
+      position: absolute;
+      top: -100px; right: -24px; bottom: -24px; left: -24px;
+      z-index: 0;
+      background-color: var(--navy);
       /* JPG baseline first; the two WebP-enhanced declarations below override it only
          in browsers that understand image-set() — unsupported browsers ignore the
          whole (invalid) declaration and keep this one, so the fallback always works. */
-      background-image:
-        linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
-        url('/assets/spazi-01.jpg');
-      background-image:
-        linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
-        -webkit-image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
-      background-image:
-        linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%),
-        image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
-      background-size: cover, cover;
-      background-position: center, center;
-      background-repeat: no-repeat, no-repeat;
+      background-image: url('/assets/spazi-01.jpg');
+      background-image: -webkit-image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
+      background-image: image-set(url('/assets/spazi-01.webp') type('image/webp') 1x, url('/assets/spazi-01.jpg') type('image/jpeg') 1x);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform-origin: 50% 45%;
+      animation: kenBurns 20s ease-in-out infinite alternate;
+      will-change: scale, translate;
+    }
+    @keyframes kenBurns {
+      from { scale: 1; }
+      to   { scale: 1.12; }
+    }
+
+    /* navy shade over the photo — doesn't move, like the old gradient layer */
+    .hero-shade {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(180deg, rgba(7,9,52,0.74) 0%, rgba(7,9,52,0.84) 55%, rgba(7,9,52,0.97) 100%);
+      pointer-events: none;
     }
 
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
+      z-index: 1;
       background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
       background-size: 22px 22px;
       animation: driftDots 30s linear infinite;
@@ -160,6 +182,7 @@
       content: '';
       position: absolute;
       inset: 0;
+      z-index: 1;
       background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, var(--navy) 85%);
       pointer-events: none;
     }
@@ -940,6 +963,20 @@
       .mainnav-links a { transition-duration: 0.01ms; }
       .mainnav-overlay.is-open .mainnav-links a { animation: none; opacity: 1; transform: none; }
     }
+
+    /* ── VIEW TRANSITIONS: dissolvenza tra le pagine (Home / Menù / Catering) ──
+       Browser senza supporto ignorano la regola; niente animazione con reduced-motion. */
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+      ::view-transition-old(root),
+      ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: ease; }
+    }
+    .mainnav-toggle { view-transition-name: mainnav-toggle; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg { animation: none; }
+      .hero::before { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -960,7 +997,7 @@
       <a href="/" class="is-current" aria-current="page" data-it="Home" data-en="Home" data-de="Startseite">Home</a>
       <a href="/menu/" data-it="Menù" data-en="Menu" data-de="Menü">Menù</a>
       <!-- Catering: diventerà una pagina dedicata; per ora rimanda alla tab del menù -->
-      <a href="/menu/#tab-catering" data-it="Catering" data-en="Catering" data-de="Catering">Catering</a>
+      <a href="/catering/" data-it="Catering" data-en="Catering" data-de="Catering">Catering</a>
     </nav>
   </div>
 
@@ -980,6 +1017,8 @@
 
   <!-- ═══════════ HERO ═══════════ -->
   <header class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-content">
       <p class="hero-label">Comano Terme — Trentino</p>
 
@@ -1002,7 +1041,7 @@
 
       <div class="hero-cta">
         <a class="btn btn-primary" href="/menu/" data-it="Il Menù" data-en="The Menu" data-de="Das Menü">Il Menù</a>
-        <a class="btn btn-ghost" href="/menu/#tab-catering" data-it="Eventi &amp; Catering" data-en="Events &amp; Catering" data-de="Events &amp; Catering">Eventi &amp; Catering</a>
+        <a class="btn btn-ghost" href="/catering/" data-it="Eventi &amp; Catering" data-en="Events &amp; Catering" data-de="Events &amp; Catering">Eventi &amp; Catering</a>
       </div>
     </div>
   </header>
@@ -1016,10 +1055,10 @@
         <h2 class="section-title" data-it="Il bar di Comano Terme" data-en="The bar of Comano Terme" data-de="Die Bar von Comano Terme">Il bar di Comano Terme</h2>
       </div>
       <p class="about-text reveal"
-         data-it="Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno."
-         data-en="JohnBar 77 opened in 2025 in the heart of Comano Terme, in Trentino. Behind the counter, the two Giulianos bring years of experience from the hospitality world — one as a bartender, the other as a sommelier — with ongoing training and a constant pursuit of quality. Here you will find a bit of everything — from coffee to our house cocktails, from carefully selected wines to artisan gelato — always chosen with care. Quality and professionalism are not just our motto: they are how we work every day."
-         data-de="Das JohnBar 77 wurde 2025 im Herzen von Comano Terme im Trentino eröffnet. Hinter der Theke bringen die beiden Giulianos jahrelange Erfahrung aus der Gastronomie mit — der eine als Barkeeper, der andere als Sommelier —, dazu ständige Weiterbildung und ein beständiges Streben nach Qualität. Bei uns finden Sie wirklich alles — vom Kaffee bis zum Cocktail des Hauses, vom ausgewählten Wein bis zum handwerklich hergestellten Eis —, stets mit Sorgfalt ausgewählt. Qualität und Professionalität sind nicht nur unser Motto: So arbeiten wir jeden Tag.">
-        Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due giuliani portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno.
+         data-it="Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due &quot;Giuliani&quot; portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno."
+         data-en="JohnBar 77 opened in 2025 in the heart of Comano Terme, in Trentino. Behind the counter, the two &quot;Giuliani&quot; bring years of experience from the hospitality world — one as a bartender, the other as a sommelier — with ongoing training and a constant pursuit of quality. Here you will find a bit of everything — from coffee to our house cocktails, from carefully selected wines to artisan gelato — always chosen with care. Quality and professionalism are not just our motto: they are how we work every day."
+         data-de="Das JohnBar 77 wurde 2025 im Herzen von Comano Terme im Trentino eröffnet. Hinter der Theke bringen die beiden „Giuliani“ jahrelange Erfahrung aus der Gastronomie mit — der eine als Barkeeper, der andere als Sommelier —, dazu ständige Weiterbildung und ein beständiges Streben nach Qualität. Bei uns finden Sie wirklich alles — vom Kaffee bis zum Cocktail des Hauses, vom ausgewählten Wein bis zum handwerklich hergestellten Eis —, stets mit Sorgfalt ausgewählt. Qualität und Professionalität sind nicht nur unser Motto: So arbeiten wir jeden Tag.">
+        Il JohnBar 77 nasce nel 2025 nel cuore di Comano Terme, in Trentino. Dietro al bancone, i due "Giuliani" portano anni di esperienza maturata nel mondo della ristorazione: rispettivamente come bartender e sommelier, tra corsi di formazione continua e una costante ricerca della qualità. Da noi si trova davvero di tutto — dal caffè al cocktail della casa, dal vino selezionato al gelato artigianale — sempre scelto con cura. Qualità e professionalità non sono solo il nostro motto: sono il modo in cui lavoriamo ogni giorno.
       </p>
     </section>
 
@@ -1119,7 +1158,7 @@
           <span class="hl-card-name" data-it="Gelato" data-en="Ice cream" data-de="Eis">Gelato</span>
           <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
-        <a class="hl-card reveal" href="/menu/#tab-catering">
+        <a class="hl-card reveal" href="/catering/">
           <span class="hl-card-name" data-it="Eventi privati" data-en="Private events" data-de="Private Feiern">Eventi privati</span>
           <span class="hl-card-go" data-it="Scopri →" data-en="Discover →" data-de="Entdecken →">Scopri →</span>
         </a>
@@ -1598,13 +1637,13 @@
 
     // ── HERO PARALLAX (leggero, disattivato con prefers-reduced-motion) ──
     (function () {
-      const hero = document.querySelector('.hero');
-      if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const heroBg = document.querySelector('.hero-bg');
+      if (!heroBg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       let ticking = false;
       function update() {
         const offset = Math.min(window.scrollY * 0.15, 80);
-        // sposta solo il layer della foto (2° background-image), non il gradiente
-        hero.style.backgroundPosition = `center center, center calc(50% + ${offset}px)`;
+        // `translate` on the photo layer; the Ken Burns zoom runs on `scale`, so they don't clash
+        heroBg.style.translate = `0 ${offset}px`;
         ticking = false;
       }
       window.addEventListener('scroll', () => {

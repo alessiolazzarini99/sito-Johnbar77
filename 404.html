@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagina non trovata — JohnBar 77</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#070934" />
+  <link rel="preload" href="/assets/fonts/poppins-300-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <style>
+    /* ── Poppins self-hosted: only the faces the CSS actually uses (200/300/300i/400/500/700),
+       latin subset — same glyph coverage the Google Fonts CSS served before ── */
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 200; font-display: swap;
+      src: url('/assets/fonts/poppins-200-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: italic; font-weight: 300; font-display: swap;
+      src: url('/assets/fonts/poppins-300-italic-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap;
+      src: url('/assets/fonts/poppins-400-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap;
+      src: url('/assets/fonts/poppins-500-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap;
+      src: url('/assets/fonts/poppins-700-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+    :root {
+      --navy: #070934;
+      --navy-mid: #0d1258;
+      --navy-light: #1a2070;
+      --white: #ffffff;
+      --cream: #f5f3ee;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --text-muted: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+
+    /* ── 404 ── */
+    .nf {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .nf::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 22px 22px;
+      animation: driftDots 30s linear infinite;
+    }
+    .nf::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, var(--navy) 85%);
+    }
+    @keyframes driftDots { from { background-position: 0 0; } to { background-position: 44px 44px; } }
+
+    .nf-logo { width: 120px; max-width: 40vw; margin-bottom: 1.5rem; }
+    .nf-code {
+      font-weight: 200;
+      font-size: clamp(4rem, 18vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .nf-title { font-weight: 700; font-size: clamp(1.4rem, 5vw, 2rem); margin-top: 1.25rem; letter-spacing: -0.01em; }
+    .nf-text { max-width: 420px; margin-top: 0.9rem; font-size: 0.9rem; line-height: 1.8; color: var(--text-muted); }
+    .nf-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2.25rem; }
+    .btn {
+      display: inline-block;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.1rem;
+      border: 1px solid var(--gold);
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-primary { background: var(--gold); color: var(--navy); }
+    .btn-primary:hover { background: var(--gold-light); border-color: var(--gold-light); }
+    .btn-ghost { background: transparent; color: var(--gold); }
+    .btn-ghost:hover { background: var(--gold); color: var(--navy); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+      ::view-transition-old(root),
+      ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: ease; }
+    }
+    @media (prefers-reduced-motion: reduce) { .nf::before { animation: none; } }
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <svg class="nf-logo" viewBox="250 20 140 165" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JohnBar 77">
+      <line x1="268" y1="30" x2="320" y2="125" stroke="white" stroke-width="2"/>
+      <line x1="372" y1="30" x2="320" y2="125" stroke="white" stroke-width="2"/>
+      <line x1="320" y1="125" x2="320" y2="175" stroke="white" stroke-width="2"/>
+      <line x1="302" y1="175" x2="338" y2="175" stroke="white" stroke-width="2"/>
+      <circle cx="310" cy="80" r="8" fill="none" stroke="#c9a96e" stroke-width="2"/>
+      <circle cx="310" cy="80" r="3" fill="#c9a96e"/>
+    </svg>
+    <p class="nf-code">404</p>
+    <h1 class="nf-title" data-it="Pagina non trovata" data-en="Page not found" data-de="Seite nicht gefunden">Pagina non trovata</h1>
+    <p class="nf-text" data-it="La pagina che cerchi non esiste o è stata spostata. Nessun problema: il bancone è sempre aperto." data-en="The page you are looking for does not exist or has moved. No worries: the bar is always open." data-de="Die gesuchte Seite existiert nicht oder wurde verschoben. Kein Problem: Die Bar ist immer geöffnet.">La pagina che cerchi non esiste o è stata spostata. Nessun problema: il bancone è sempre aperto.</p>
+    <div class="nf-cta">
+      <a class="btn btn-primary" href="/" data-it="Torna alla Home" data-en="Back to Home" data-de="Zur Startseite">Torna alla Home</a>
+      <a class="btn btn-ghost" href="/menu/" data-it="Vai al Menù" data-en="See the Menu" data-de="Zum Menü">Vai al Menù</a>
+    </div>
+  </main>
+  <script>
+    // Same language the visitor picked on the rest of the site (no switcher needed here).
+    (function () {
+      let lang = 'it';
+      try { lang = localStorage.getItem('jb77-lang') || 'it'; } catch (e) {}
+      if (!['en', 'de'].includes(lang)) return;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-it]').forEach(el => { const v = el.dataset[lang]; if (v !== undefined) el.textContent = v; });
+    })();
+  </script>
+</body>
+</html>
