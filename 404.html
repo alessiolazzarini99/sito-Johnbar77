@@ -91,7 +91,7 @@
     }
     @keyframes driftDots { from { background-position: 0 0; } to { background-position: 44px 44px; } }
 
-    .nf-logo { width: 120px; max-width: 40vw; margin-bottom: 1.5rem; }
+    .nf-logo { display: block; width: min(78vw, 380px); height: auto; margin-bottom: 2rem; }
     .nf-code {
       font-weight: 200;
       font-size: clamp(4rem, 18vw, 8rem);
@@ -129,14 +129,7 @@
 </head>
 <body>
   <main class="nf">
-    <svg class="nf-logo" viewBox="250 20 140 165" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JohnBar 77">
-      <line x1="268" y1="30" x2="320" y2="125" stroke="white" stroke-width="2"/>
-      <line x1="372" y1="30" x2="320" y2="125" stroke="white" stroke-width="2"/>
-      <line x1="320" y1="125" x2="320" y2="175" stroke="white" stroke-width="2"/>
-      <line x1="302" y1="175" x2="338" y2="175" stroke="white" stroke-width="2"/>
-      <circle cx="310" cy="80" r="8" fill="none" stroke="#c9a96e" stroke-width="2"/>
-      <circle cx="310" cy="80" r="3" fill="#c9a96e"/>
-    </svg>
+    <img class="nf-logo" src="/assets/logo-johnbar77.svg" alt="JohnBar 77 — Qualità &amp; Professionalità" width="2015" height="945" />
     <p class="nf-code">404</p>
     <h1 class="nf-title" data-it="Pagina non trovata" data-en="Page not found" data-de="Seite nicht gefunden">Pagina non trovata</h1>
     <p class="nf-text" data-it="La pagina che cerchi non esiste o è stata spostata. Nessun problema: il bancone è sempre aperto." data-en="The page you are looking for does not exist or has moved. No worries: the bar is always open." data-de="Die gesuchte Seite existiert nicht oder wurde verschoben. Kein Problem: Die Bar ist immer geöffnet.">La pagina che cerchi non esiste o è stata spostata. Nessun problema: il bancone è sempre aperto.</p>

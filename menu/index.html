@@ -20,17 +20,17 @@
   <meta property="og:url" content="https://johnbar77.com/menu/" />
   <meta property="og:title" content="Menù — JohnBar 77, Comano Terme" />
   <meta property="og:description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini e gelato." />
-  <meta property="og:image" content="https://johnbar77.com/assets/hero-01.jpg" />
-  <meta property="og:image:width" content="1600" />
-  <meta property="og:image:height" content="1066" />
-  <meta property="og:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+  <meta property="og:image" content="https://johnbar77.com/assets/og-johnbar77.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Logo JohnBar 77 — Qualità &amp; Professionalità" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Menù — JohnBar 77, Comano Terme" />
   <meta name="twitter:description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini e gelato." />
-  <meta name="twitter:image" content="https://johnbar77.com/assets/hero-01.jpg" />
-  <meta name="twitter:image:alt" content="La facciata del JohnBar 77 a Comano Terme" />
+  <meta name="twitter:image" content="https://johnbar77.com/assets/og-johnbar77.jpg" />
+  <meta name="twitter:image:alt" content="Logo JohnBar 77 — Qualità &amp; Professionalità" />
 
   <!-- Fonts: self-hosted Poppins (see @font-face below) -->
   <link rel="preload" href="/assets/fonts/poppins-300-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -156,49 +156,14 @@
       animation: fadeUp 1s ease 0.3s both;
     }
 
-    .logo-wrap {
-      margin-bottom: 1.5rem;
+    /* Logo originale (SVG vettorializzato dal PNG ufficiale, proporzioni 2015:945) */
+    .hero-logo {
+      width: min(86vw, 600px);
+      margin: 0 auto;
       opacity: 0;
       animation: fadeUp 1s ease 0.5s both;
     }
-
-    .logo-svg {
-      width: 220px;
-      max-width: 65vw;
-    }
-
-    .hero-title {
-      font-family: 'Poppins', serif;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 14vw, 7rem);
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      opacity: 0;
-      animation: fadeUp 1s ease 0.7s both;
-    }
-
-    .hero-title span {
-      display: block;
-      font-size: clamp(1.2rem, 5vw, 2.2rem);
-      font-weight: 300;
-      letter-spacing: 0.6em;
-      text-transform: uppercase;
-      font-family: 'Poppins', sans-serif;
-      color: var(--white);
-      margin-top: 0.3rem;
-    }
-
-    .hero-sub {
-      font-family: 'Poppins', serif;
-      font-style: italic;
-      font-size: clamp(0.9rem, 3vw, 1.15rem);
-      color: var(--gold-light);
-      margin-top: 1.5rem;
-      letter-spacing: 0.05em;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.9s both;
-    }
+    .hero-logo img { display: block; width: 100%; height: auto; }
 
     .scroll-cta {
       position: absolute;
@@ -675,20 +640,10 @@
       text-align: center;
     }
 
-    .footer-logo {
-      font-family: 'Poppins', serif;
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--white);
-    }
-
-    .footer-logo strong {
+    .footer-logo img {
       display: block;
-      font-family: 'Poppins', serif;
-      font-weight: 700;
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
+      width: min(64vw, 260px);
+      height: auto;
     }
 
     .footer-info {
@@ -825,6 +780,17 @@
       visibility: visible;
       transition: opacity 0.4s ease, visibility 0s;
     }
+
+    /* logo sopra le voci del menu di navigazione */
+    .mainnav-overlay { flex-direction: column; }
+    .mainnav-logo {
+      width: min(62vw, 300px);
+      height: auto;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .mainnav-overlay.is-open .mainnav-logo { animation: mainnavLinkIn 0.5s ease 0.02s forwards; }
+    @media (prefers-reduced-motion: reduce) { .mainnav-overlay.is-open .mainnav-logo { animation: none; opacity: 1; transform: none; } }
 
     .mainnav-links {
       display: flex;
@@ -1046,6 +1012,7 @@
     <span class="mainnav-bars" aria-hidden="true"><span></span><span></span><span></span></span>
   </button>
   <div class="mainnav-overlay" id="mainnavPanel">
+    <img class="mainnav-logo" src="/assets/logo-johnbar77.svg" alt="" width="2015" height="945" aria-hidden="true" />
     <nav class="mainnav-links" aria-label="Navigazione principale">
       <a href="/" data-it="Home" data-en="Home" data-de="Startseite">Home</a>
       <a href="/menu/" class="is-current" aria-current="page" data-it="Menù" data-en="Menu" data-de="Menü">Menù</a>
@@ -1058,26 +1025,7 @@
   <section class="hero">
     <div class="hero-content">
       <p class="hero-label">Comano Terme — Trentino</p>
-
-      <div class="logo-wrap">
-        <svg class="logo-svg" viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="268" y1="30" x2="320" y2="125" stroke="white" stroke-width="1.5"/>
-          <line x1="372" y1="30" x2="320" y2="125" stroke="white" stroke-width="1.5"/>
-          <line x1="320" y1="125" x2="320" y2="175" stroke="white" stroke-width="1.5"/>
-          <line x1="302" y1="175" x2="338" y2="175" stroke="white" stroke-width="1.5"/>
-          <circle cx="310" cy="80" r="8" fill="none" stroke="white" stroke-width="1.5"/>
-          <circle cx="310" cy="80" r="3" fill="white"/>
-        </svg>
-      </div>
-
-      <h1 class="hero-title">
-        JOHNBAR
-        <span>77</span>
-      </h1>
-      <p class="hero-sub"
-         data-it="Qualità &amp; Professionalità"
-         data-en="Quality &amp; Professionalism"
-         data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</p>
+      <h1 class="hero-logo"><img src="/assets/logo-johnbar77.svg" alt="JohnBar 77 — Qualità &amp; Professionalità" width="2015" height="945" /></h1>
     </div>
 
     <div class="scroll-cta" onclick="document.querySelector('.menu-nav').scrollIntoView({behavior:'smooth'})">
@@ -1688,12 +1636,7 @@
 
   <!-- ── FOOTER ── -->
   <footer class="site-footer">
-    <div class="footer-logo">
-      <strong>JOHNBAR 77</strong>
-      <span data-it="Qualità &amp; Professionalità"
-            data-en="Quality &amp; Professionalism"
-            data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</span>
-    </div>
+    <div class="footer-logo"><img src="/assets/logo-johnbar77.svg" alt="JohnBar 77 — Qualità &amp; Professionalità" width="2015" height="945" loading="lazy" /></div>
     <div class="footer-info">
       Via Cesare Battisti, 3 — 38077 Comano Terme TN<br>
       <a href="mailto:johnbar77.gjoni@gmail.com">johnbar77.gjoni@gmail.com</a>

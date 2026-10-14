@@ -159,14 +159,6 @@
       animation: fadeUp 1s ease 0.3s both;
     }
 
-    .logo-wrap {
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.5s both;
-    }
-
-    .logo-svg { width: 200px; max-width: 60vw; }
-
     .hero-title {
       font-family: 'Poppins', serif;
       font-weight: 300;
@@ -472,20 +464,10 @@
       text-align: center;
     }
 
-    .footer-logo {
-      font-family: 'Poppins', serif;
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--white);
-    }
-
-    .footer-logo strong {
+    .footer-logo img {
       display: block;
-      font-family: 'Poppins', serif;
-      font-weight: 700;
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
+      width: min(64vw, 260px);
+      height: auto;
     }
 
     .footer-info {
@@ -600,6 +582,17 @@
       transition: opacity 0.4s ease, visibility 0s;
     }
 
+    /* logo sopra le voci del menu di navigazione */
+    .mainnav-overlay { flex-direction: column; }
+    .mainnav-logo {
+      width: min(62vw, 300px);
+      height: auto;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .mainnav-overlay.is-open .mainnav-logo { animation: mainnavLinkIn 0.5s ease 0.02s forwards; }
+    @media (prefers-reduced-motion: reduce) { .mainnav-overlay.is-open .mainnav-logo { animation: none; opacity: 1; transform: none; } }
+
     .mainnav-links {
       display: flex;
       flex-direction: column;
@@ -704,6 +697,7 @@
     <button class="lang-btn" type="button" data-lang="de" aria-pressed="false">DE</button>
   </div>
   <div class="mainnav-overlay" id="mainnavPanel">
+    <img class="mainnav-logo" src="/assets/logo-johnbar77.svg" alt="" width="2015" height="945" aria-hidden="true" />
     <nav class="mainnav-links" aria-label="Navigazione principale">
       <a href="/" data-it="Home" data-en="Home" data-de="Startseite">Home</a>
       <a href="/menu/" data-it="Menù" data-en="Menu" data-de="Menü">Menù</a>
@@ -739,11 +733,9 @@
       <div class="hero-cta">
         <a class="btn btn-primary" href="mailto:johnbar77.gjoni@gmail.com?subject=Richiesta%20catering%20%2F%20evento%20privato"
            data-it="Richiedi un preventivo" data-en="Request a quote" data-de="Angebot anfordern">Richiedi un preventivo</a>
-        <!-- WhatsApp → https://wa.me/[NUMERO]
-             Compilare WHATSAPP_NUMBER nello script in fondo alla pagina (solo cifre, con prefisso
-             internazionale, es. 39XXXXXXXXXX). Finché è vuoto il bottone resta nascosto. -->
-        <a class="btn btn-ghost" id="waBtn" href="https://wa.me/" target="_blank" rel="noopener" hidden
-           data-it="Scrivici su WhatsApp" data-en="Message us on WhatsApp" data-de="Schreib uns auf WhatsApp">Scrivici su WhatsApp</a>
+        <!-- TELEFONO_FISSO: quando il bar avrà un numero fisso, decommentare e compilare.
+        <a class="btn btn-ghost" href="tel:+39TELEFONO_FISSO" data-it="Chiamaci" data-en="Call us" data-de="Ruf uns an">Chiamaci</a>
+        -->
       </div>
     </div>
   </header>
@@ -801,12 +793,7 @@
 
   <!-- ── FOOTER (identico a /menu) ── -->
   <footer class="site-footer">
-    <div class="footer-logo">
-      <strong>JOHNBAR 77</strong>
-      <span data-it="Qualità &amp; Professionalità"
-            data-en="Quality &amp; Professionalism"
-            data-de="Qualität &amp; Professionalität">Qualità &amp; Professionalità</span>
-    </div>
+    <div class="footer-logo"><img src="/assets/logo-johnbar77.svg" alt="JohnBar 77 — Qualità &amp; Professionalità" width="2015" height="945" loading="lazy" /></div>
     <div class="footer-info">
       Via Cesare Battisti, 3 — 38077 Comano Terme TN<br>
       <a href="mailto:johnbar77.gjoni@gmail.com">johnbar77.gjoni@gmail.com</a>
@@ -1006,16 +993,6 @@
       });
     })();
 
-    // ── WHATSAPP: il bottone compare solo quando il numero è compilato ──
-    (function () {
-      const WHATSAPP_NUMBER = ''; // [NUMERO] — solo cifre con prefisso, es. 39XXXXXXXXXX
-      const btn = document.getElementById('waBtn');
-      const num = WHATSAPP_NUMBER.replace(/\D/g, '');
-      if (btn && /^\d{8,15}$/.test(num)) {
-        btn.href = 'https://wa.me/' + num;
-        btn.hidden = false;
-      }
-    })();
   </script>
 </body>
 </html>
