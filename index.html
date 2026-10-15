@@ -4,17 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ═══════════ SPLASH "COMING SOON" (solo la home) — configurazione ═══════════
+  <!-- ═══════════ SPLASH "COMING SOON" — configurazione ═══════════
        SPLASH_ATTIVA  true  = la home mostra lo splash fino a DATA_LANCIO
                       false = sito normale
        DATA_LANCIO    ora italiana, formato "AAAA-MM-GGTHH:MM:00+02:00"
                       (+02:00 con l'ora legale, da fine marzo a fine ottobre; +01:00 con l'ora solare)
-       Alla data del lancio il sito compare da solo, senza un nuovo deploy.
+       SPLASH_SU_TUTTE_LE_PAGINE  true = finché lo splash è attivo anche /menu e /catering rimandano alla home
+       Le stesse tre costanti sono ripetute in testa a menu/index.html e catering/index.html: tenerle uguali.
+       Alla data del lancio splash e reindirizzamento si spengono da soli, senza un nuovo deploy.
        Anteprima del sito vero con lo splash attivo: https://johnbar77.com/?anteprima
-       (vale per tutta la sessione del browser). /menu, /catering e la 404 non sono mai coinvolti. -->
+       (su qualunque pagina, vale per tutta la sessione del browser). La 404 non è mai coinvolta. -->
   <script>
     const SPLASH_ATTIVA = true;
-    const DATA_LANCIO = "[2026-10-26THH:MM:00+02:00]";
+    const DATA_LANCIO = "2026-10-30T18:00:00+01:00";
+    const SPLASH_SU_TUTTE_LE_PAGINE = true;
 
     (function () {
       var anteprima = false;

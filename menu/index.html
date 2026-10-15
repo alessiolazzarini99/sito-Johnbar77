@@ -3,6 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══ SPLASH "COMING SOON": stesse costanti di index.html (tenerle uguali) ═══
+       Finché lo splash è attivo e DATA_LANCIO non è arrivata, questa pagina rimanda alla home.
+       ?anteprima (vale per tutta la sessione) mostra la pagina vera. -->
+  <script>
+    const SPLASH_ATTIVA = true;
+    const DATA_LANCIO = "2026-10-30T18:00:00+01:00";
+    const SPLASH_SU_TUTTE_LE_PAGINE = true;
+
+    (function () {
+      var anteprima = false;
+      try {
+        if (new URLSearchParams(location.search).has('anteprima')) sessionStorage.setItem('jb77-anteprima', '1');
+        anteprima = sessionStorage.getItem('jb77-anteprima') === '1';
+      } catch (e) { anteprima = /[?&]anteprima\b/.test(location.search); }
+      var lancio = Date.parse(DATA_LANCIO);
+      if (SPLASH_ATTIVA && SPLASH_SU_TUTTE_LE_PAGINE && !anteprima && !(lancio <= Date.now())) location.replace('/');
+    })();
+  </script>
   <title>JohnBar 77 — Menu</title>
   <meta name="description" content="Il menù del JohnBar 77 a Comano Terme: caffetteria, colazioni, cocktail della casa, aperitivi, vini e gelato." />
   <link rel="canonical" href="https://johnbar77.com/menu/" />
