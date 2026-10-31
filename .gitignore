@@ -1,3 +1,7 @@
-.DS_Store
 assets (no compressed)/
 logo/
+node_modules/
+.wrangler/
+.env*
+.dev.vars*
+.DS_Store

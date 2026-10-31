@@ -1,11 +1,30 @@
-# Files/dirs NOT uploaded to Cloudflare as static assets
-assets (no compressed)/
+# Files/dirs NOT uploaded to Cloudflare as static assets (sintassi .gitignore)
+# Config e strumenti
 wrangler.jsonc
+wrangler.toml
 .assetsignore
 .gitignore
 .git/
+.github/
+.claude/
+.vscode/
+.wrangler/
 node_modules/
 package.json
 package-lock.json
+# Segreti e variabili d'ambiente
+.env*
+.dev.vars*
+# Documenti di lavoro, originali e file di sistema
 README.md
+*.md
 logo/
+assets (no compressed)/
+*.psd
+*.ai
+*.log
+*.bak
+*.tmp
+*~
+.DS_Store
+Thumbs.db
