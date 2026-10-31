@@ -1,0 +1,14 @@
+# Security headers — Cloudflare Workers static assets (questo file non viene pubblicato).
+# Il sito usa solo risorse proprie (font, immagini e script locali): la CSP ammette solo 'self'.
+# 'unsafe-inline' serve per gli <script>/<style> inline e l'onclick del menu.
+# Se attivi Cloudflare Web Analytics, aggiungi https://static.cloudflareinsights.com a script-src
+# e https://cloudflareinsights.com a connect-src. Se incorpori una mappa/video esterni, aggiungi
+# l'origine a frame-src.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
