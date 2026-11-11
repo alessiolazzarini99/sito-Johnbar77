@@ -1,19 +1,56 @@
-/* Suggerimento "cambia lingua" — una sola volta, alla prima visita.
-   Compare solo se: il browser non è in italiano, nessuna lingua è già stata scelta, lo splash non è attivo.
-   Testo in inglese e tedesco, con una freccia verso il selettore IT / EN / DE.
-   Sparisce da solo, al tocco, allo scroll o appena si sceglie una lingua; poi non torna più (localStorage 'jb77-lang-hint'). */
+/* Lingua: rilevamento automatico + suggerimento "cambia lingua". Caricato da home, menu e catering.
+
+   1. Rilevamento: alla prima visita (nessuna lingua scelta a mano) legge le lingue del browser, in ordine.
+      La prima tra italiano, inglese, tedesco vince; se non c'è nessuna delle tre (es. francese) si usa l'inglese.
+      Il rilevamento non viene salvato come "scelta": la scelta vera è solo un tocco su IT / EN / DE (localStorage 'jb77-lang').
+   2. Suggerimento: chi ha il browser non in italiano vede, una sola volta, un fumetto in inglese e tedesco con la freccia verso
+      il selettore. Parte quando il selettore è davvero visibile (nel /menu è sotto l'intestazione a tutto schermo).
+      Sparisce dopo 9 s, al tocco, allo scroll che lo porta fuori schermo o appena si sceglie una lingua (localStorage 'jb77-lang-hint').
+   Prove: ?lang=de|en|it forza la lingua (e la salva); ?hint mostra il suggerimento anche con il browser in italiano e senza salvarlo. */
 (function () {
-  var KEY = 'jb77-lang-hint';
+  var KEY = 'jb77-lang-hint', SUP = ['it', 'en', 'de'];
   function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function write(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage non disponibile */ } }
-
-  var primary = String((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
-  if (primary.indexOf('it') === 0) return;
-  if (read('jb77-lang') || read(KEY)) return;
-  if (document.documentElement.classList.contains('splash-on')) return;
+  function drop(k) { try { localStorage.removeItem(k); } catch (e) { /* storage non disponibile */ } }
+  function pick(lang) {
+    var b = document.querySelector('.lang-btn[data-lang="' + lang + '"]');
+    if (b) b.click();
+  }
 
   var sw = document.querySelector('.lang-switcher');
   if (!sw) return;
+
+  var params = new URLSearchParams(location.search);
+  var forced = (params.get('lang') || '').toLowerCase();
+  var preview = params.has('hint');
+  var saved = read('jb77-lang');
+
+  // lingua del browser: la prima tra it / en / de nell'elenco; nessuna delle tre -> inglese; elenco vuoto -> italiano
+  var langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+  var detected = langs.join('').trim() ? 'en' : 'it';
+  for (var i = 0; i < langs.length; i++) {
+    var c = String(langs[i]).toLowerCase().slice(0, 2);
+    if (SUP.indexOf(c) > -1) { detected = c; break; }
+  }
+
+  var current = 'it';
+  if (SUP.indexOf(forced) > -1) {
+    pick(forced);                       // scelta esplicita: la salva la pagina
+    current = forced;
+  } else if (!saved && detected !== 'it') {
+    pick(detected);                     // rilevamento: la pagina lo salva, ma non è una scelta dell'utente
+    drop('jb77-lang');
+    current = detected;
+  } else if (saved && SUP.indexOf(saved) > -1) {
+    current = saved;
+  }
+
+  // ── suggerimento ──
+  if (!preview) {
+    if (saved || SUP.indexOf(forced) > -1 || read(KEY)) return;
+    if (detected === 'it') return;
+  }
+  if (document.documentElement.classList.contains('splash-on')) return;
 
   var css = document.createElement('style');
   css.textContent =
@@ -28,10 +65,11 @@
     '@media (prefers-reduced-motion:reduce){.lang-hint{transition:none}}';
   document.head.appendChild(css);
 
+  var en = 'Change language here ↑', de = 'Sprache hier ändern ↑';
   var tip = document.createElement('div');
   tip.className = 'lang-hint';
   tip.setAttribute('role', 'note');
-  tip.innerHTML = '<b>Change language here ↑</b><span>Sprache hier ändern ↑</span>';
+  tip.innerHTML = current === 'de' ? '<b>' + de + '</b><span>' + en + '</span>' : '<b>' + en + '</b><span>' + de + '</span>';
 
   function place() {
     var r = sw.getBoundingClientRect();
@@ -41,13 +79,14 @@
     tip.style.setProperty('--lh-arrow', Math.round(r.width / 2) + 'px');
   }
 
-  var done = false, shown = false, timer = null;
+  var done = false, shown = false, timer = null, io = null, wait = null;
   function hide() {
     if (done) return;
     done = true;
     window.removeEventListener('scroll', follow);
     window.removeEventListener('resize', place);
     if (io) io.disconnect();
+    clearTimeout(wait);
     clearTimeout(timer);
     tip.classList.remove('is-on');
     setTimeout(function () { if (tip.parentNode) tip.parentNode.removeChild(tip); }, 600);
@@ -61,7 +100,7 @@
   function show() {
     if (done || shown || !document.body) return;
     shown = true;
-    write(KEY, '1');
+    if (!preview) write(KEY, '1');
     document.body.appendChild(tip);
     place();
     requestAnimationFrame(function () { tip.classList.add('is-on'); });
@@ -70,13 +109,10 @@
     timer = setTimeout(hide, 9000);
   }
 
-  // parte solo quando il selettore è davvero visibile (nel /menu è sotto l'intestazione a tutto schermo)
-  var io = null, wait = null;
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (entries) {
-      var on = entries[0].isIntersecting;
       clearTimeout(wait);
-      if (on && !shown) wait = setTimeout(show, 1200);
+      if (entries[0].isIntersecting && !shown) wait = setTimeout(show, 1200);
     }, { threshold: 1 });
     io.observe(sw);
   } else {
